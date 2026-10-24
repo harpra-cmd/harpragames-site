@@ -1,0 +1,4 @@
+# app-ads.txt for harpragames.com — the developer website named in the store
+# listings. AdMob gives the line to paste below once the AdMob account exists
+# (it looks like: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0).
+# One line covers every app under this AdMob account, Android and iPhone.
