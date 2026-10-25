@@ -90,6 +90,13 @@ p { margin: 0 0 var(--s3); }
 .band::after { transform: scaleX(-1); }
 .band span::before, .band span::after { content: "◆"; font-size: 8px; padding: 0 10px; vertical-align: 2px; }
 .band.left { justify-content: flex-start; }
+/* Phones: a long band ("A puzzle with more to explore") may not fit on one line
+   with its letter-spacing and side rules, so it drops the rules, tightens and wraps. */
+@media (max-width: 480px) {
+    .band { letter-spacing: 0.1em; font-size: 12px; }
+    .band::before, .band::after { display: none; }
+    .band span { white-space: normal; text-align: center; text-wrap: balance; }   /* two even lines, never one word alone */
+}
 .band.left::before { display: none; }
 
 /* ── Buttons ──────────────────────────────────────────────────────────── */
@@ -158,7 +165,12 @@ main { flex: 1; }
 
 /* Home 2 -- the featured game: Knighted!, introduced once, beside its board. */
 .featured { padding-bottom: var(--s5); }
-.featured-card { display: grid; gap: var(--s5); align-items: center; padding: var(--s5) var(--s4); text-align: center; }
+/* minmax(0, 1fr) and min-width: 0, not the default "auto": a grid column
+   otherwise grows to its widest content (the cards' text, the 300px
+   wordmark) and spills past the box on a phone -- hidden by the page's
+   overflow-x: clip, so it looked cut off rather than scrolling. */
+.featured-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s5); align-items: center; padding: var(--s5) var(--s4); text-align: center; }
+.featured-card > * { min-width: 0; }
 .featured-copy .wordmark { width: min(100%, 300px); margin: 0 auto var(--s2); }
 /* .featured-card is a .card too, whose generic paragraph rule would shrink these. */
 .featured-card .featured-tag { font: 600 clamp(22px, 3.6vw, 32px)/1.2 var(--font-head); color: var(--color-text-primary); margin: 0 0 var(--s2); }
@@ -172,7 +184,7 @@ main { flex: 1; }
 @media (min-width: 880px) {
     /* The copy starts near the card's top edge instead of floating mid-card
        beside the tall screenshot; the space it frees goes between its lines. */
-    .featured-card { grid-template-columns: 1.2fr 0.8fr; padding: var(--s5) var(--s6); text-align: left; align-items: start; }
+    .featured-card { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); padding: var(--s5) var(--s6); text-align: left; align-items: start; }
     .featured-copy { padding-top: var(--s2); }
     .featured-copy .eyebrow { margin-bottom: var(--s2); }
     .featured-copy .wordmark { margin-bottom: var(--s3); }
