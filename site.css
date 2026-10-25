@@ -10,6 +10,7 @@
  */
 @font-face { font-family: 'Inter';  src: url('/fonts/inter-400-normal-latin.woff2') format('woff2');  font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Inter';  src: url('/fonts/inter-600-normal-latin.woff2') format('woff2');  font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Outfit'; src: url('/fonts/outfit-500-normal-latin.woff2') format('woff2'); font-weight: 500; font-display: swap; }
 @font-face { font-family: 'Outfit'; src: url('/fonts/outfit-600-normal-latin.woff2') format('woff2'); font-weight: 600; font-display: swap; }
 @font-face { font-family: 'Cinzel'; src: url('/fonts/cinzel-700-normal-latin.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 @font-face { font-family: 'Allura'; src: url('/fonts/allura-400-normal-latin.woff2') format('woff2'); font-weight: 400; font-display: swap; }  /* the app's script captions */
@@ -69,7 +70,7 @@ a:hover { color: #fff3c4; }
 
 /* ── Type ─────────────────────────────────────────────────────────────── */
 h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.2; margin: 0 0 var(--s3); }
-h1 { font-size: clamp(32px, 7vw, 52px); }
+h1 { font-size: clamp(30px, 6.5vw, 48px); font-weight: 500; letter-spacing: -0.005em; }
 h2 { font-size: clamp(24px, 4.6vw, 32px); }
 h3 { font-size: clamp(18px, 3.4vw, 21px); }
 p { margin: 0 0 var(--s3); }
@@ -95,7 +96,7 @@ p { margin: 0 0 var(--s3); }
 .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     min-height: 52px; padding: 12px 22px; border-radius: var(--radius-button);
-    font: 700 15px/1.2 var(--font-label); letter-spacing: 0.05em; text-transform: uppercase;
+    font: 600 17px/1.2 var(--font-head); letter-spacing: 0.01em;
     text-decoration: none; cursor: pointer; transition: filter 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 }
 .btn-primary { background: var(--gold-gradient); color: var(--color-ink-on-gold); box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4); }
@@ -145,11 +146,11 @@ main { flex: 1; }
 
 /* Home 1 -- the studio: the Harpra Games logo as the app's splash shows it
    (index.html #splash-logo), with the promise and the philosophy beneath it. */
-.studio { padding: var(--s4) 0 var(--s6); }
-.studio h1 { margin: var(--s4) 0 var(--s3); }
+.studio { padding: var(--s3) 0 var(--s5); }
+.studio h1 { margin: var(--s3) 0 var(--s2); }
 .studio .lede { margin-bottom: 0; }
 .studio-logo {
-    display: inline-block; width: 180px; max-width: 46vw; height: auto;
+    display: inline-block; width: 148px; max-width: 38vw; height: auto;
     filter: drop-shadow(0 10px 25px rgba(255, 255, 255, 0.15));
     animation: studio-in 1.2s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
@@ -158,21 +159,23 @@ main { flex: 1; }
 /* Home 2 -- the featured game: Knighted!, introduced once, beside its board. */
 .featured { padding-bottom: var(--s5); }
 .featured-card { display: grid; gap: var(--s5); align-items: center; padding: var(--s5) var(--s4); text-align: center; }
-.featured-copy .wordmark { width: min(100%, 340px); margin: 0 auto var(--s3); }
+.featured-copy .wordmark { width: min(100%, 300px); margin: 0 auto var(--s2); }
 /* .featured-card is a .card too, whose generic paragraph rule would shrink these. */
 .featured-card .featured-tag { font: 600 clamp(22px, 3.6vw, 32px)/1.2 var(--font-head); color: var(--color-text-primary); margin: 0 0 var(--s2); }
 .featured-card .featured-copy > p.muted { font-size: 17px; }
+/* Narrow screens: the gold half on its own line, never split mid-phrase. */
+@media (max-width: 879px) { .featured-tag .gold { display: block; } }
 .featured-card .store-note { font-size: 14px; margin-top: 10px; }
 .featured-copy .btn-row { justify-content: center; margin-top: var(--s4); }
 .featured-art { display: flex; justify-content: center; }
-.featured-art .shot { width: min(70vw, 260px); }
+.featured-art .shot { width: min(66vw, 270px); }
 @media (min-width: 880px) {
     /* The copy starts near the card's top edge instead of floating mid-card
        beside the tall screenshot; the space it frees goes between its lines. */
     .featured-card { grid-template-columns: 1.2fr 0.8fr; padding: var(--s5) var(--s6); text-align: left; align-items: start; }
     .featured-copy { padding-top: var(--s2); }
     .featured-copy .eyebrow { margin-bottom: var(--s2); }
-    .featured-copy .wordmark { margin-bottom: var(--s5); }
+    .featured-copy .wordmark { margin-bottom: var(--s3); }
     .featured-card .featured-tag { margin-bottom: var(--s3); }
     .featured-copy .btn-row { margin-top: var(--s5); }
     .featured-copy .wordmark { margin-left: 0; }
