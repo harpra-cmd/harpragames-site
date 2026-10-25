@@ -180,6 +180,12 @@ main { flex: 1; }
 /* Wide screens: all six in one row, no scrolling. */
 @media (min-width: 1100px) { .gallery { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; overflow: visible; margin: 0; padding: 8px 0 20px; } .gallery-hint { display: none; } }
 
+/* Tap a screenshot to see it larger. */
+.lightbox { padding: 0; border: none; background: transparent; max-width: 94vw; max-height: 94vh; overflow: visible; }
+.lightbox::backdrop { background: rgba(5, 8, 18, 0.88); }
+.lightbox img { display: block; max-width: 92vw; max-height: 90vh; width: auto; height: auto; border-radius: 22px; border: 3px solid #26304a; box-shadow: var(--shadow-shot); }
+.lightbox-close { position: absolute; top: -14px; right: -14px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--color-border-accent); background: var(--color-surface-raised); color: var(--color-text-cream); font: 600 24px/1 var(--font-head); cursor: pointer; }
+
 /* How it works: three steps, each with a real board. */
 .steps { counter-reset: step; }
 .step { text-align: center; }
