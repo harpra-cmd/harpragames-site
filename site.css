@@ -167,7 +167,14 @@ main { flex: 1; }
 .featured-art { display: flex; justify-content: center; }
 .featured-art .shot { width: min(70vw, 260px); }
 @media (min-width: 880px) {
-    .featured-card { grid-template-columns: 1.2fr 0.8fr; padding: var(--s6); text-align: left; }
+    /* The copy starts near the card's top edge instead of floating mid-card
+       beside the tall screenshot; the space it frees goes between its lines. */
+    .featured-card { grid-template-columns: 1.2fr 0.8fr; padding: var(--s5) var(--s6); text-align: left; align-items: start; }
+    .featured-copy { padding-top: var(--s2); }
+    .featured-copy .eyebrow { margin-bottom: var(--s2); }
+    .featured-copy .wordmark { margin-bottom: var(--s5); }
+    .featured-card .featured-tag { margin-bottom: var(--s3); }
+    .featured-copy .btn-row { margin-top: var(--s5); }
     .featured-copy .wordmark { margin-left: 0; }
     .featured-copy .btn-row { justify-content: flex-start; }
 }
