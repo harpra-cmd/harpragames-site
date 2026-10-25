@@ -146,7 +146,7 @@ main { flex: 1; }
 
 /* Home 1 -- the studio: the Harpra Games logo as the app's splash shows it
    (index.html #splash-logo), with the promise and the philosophy beneath it. */
-.studio { padding: var(--s3) 0 var(--s6); }
+.studio { padding: var(--s6) 0 var(--s6); }   /* no header above it: the logo opens the page */
 .studio h1 { margin: var(--s5) 0 var(--s3); }
 .studio .lede { margin-bottom: 0; }
 .studio-logo {
@@ -186,7 +186,6 @@ main { flex: 1; }
 .shot { display: block; border-radius: 26px; border: 3px solid #26304a; box-shadow: var(--shadow-shot); background: #0b1020; }
 .hero-art .shot { width: min(78vw, 320px); }
 @media (min-width: 880px) { .hero-art .shot { width: 280px; } }
-.site-header .header-home { justify-content: flex-end; }
 
 /* Cards: the app's pillow face with a thin gold edge. */
 .card { background: var(--color-surface); border: 1px solid var(--color-border-accent); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: var(--s4); }
