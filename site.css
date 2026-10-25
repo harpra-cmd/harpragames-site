@@ -154,7 +154,13 @@ main { flex: 1; }
 /* Home 1 -- the studio: the Harpra Games logo as the app's splash shows it
    (index.html #splash-logo), with the promise and the philosophy beneath it. */
 .studio { padding: var(--s6) 0 var(--s6); }   /* no header above it: the logo opens the page */
-.studio h1 { margin: var(--s5) 0 var(--s3); }
+.studio h1 { margin: var(--s4) 0 var(--s3); }
+/* The app's ornament without words: gold rule, diamond, gold rule (as on the
+   section bands), between the studio logo and its promise. */
+.ornament { display: flex; align-items: center; justify-content: center; gap: 12px; margin: var(--s4) auto 0; color: var(--color-primary); }
+.ornament::before, .ornament::after { content: ""; height: 1px; width: 72px; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.7)); }
+.ornament::after { transform: scaleX(-1); }
+.ornament span { font-size: 9px; line-height: 1; }
 .studio .lede { margin-bottom: 0; }
 .studio-logo {
     display: inline-block; width: 148px; max-width: 38vw; height: auto;
@@ -175,8 +181,8 @@ main { flex: 1; }
 /* .featured-card is a .card too, whose generic paragraph rule would shrink these. */
 .featured-card .featured-tag { font: 600 clamp(22px, 3.6vw, 32px)/1.2 var(--font-head); color: var(--color-text-primary); margin: 0 0 var(--s2); }
 .featured-card .featured-copy > p.muted { font-size: 17px; }
-/* Narrow screens: the gold half on its own line, never split mid-phrase. */
-@media (max-width: 879px) { .featured-tag .gold { display: block; } }
+/* The gold half on its own line at every size, never split mid-phrase. */
+.featured-tag .gold, .hero-copy h1 .gold { display: block; }
 .featured-card .store-note { font-size: 14px; margin-top: 10px; }
 .featured-copy .btn-row { justify-content: center; margin-top: var(--s4); }
 .featured-art { display: flex; justify-content: center; }
@@ -398,3 +404,28 @@ main { flex: 1; }
 .fade-up { animation: fade-up 0.8s ease both; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* DESKTOP BREATHING SPACE (owner, 2026-10-25): on wide screens every group
+   gets more room around it, so the page reads as separate parts. Phones keep
+   their tighter spacing. LAST IN THE FILE on purpose, so it wins over the
+   general rules above. */
+@media (min-width: 880px) {
+    .studio { padding: var(--s7) 0; }
+    .studio .ornament { margin-top: var(--s5); }
+    .studio h1 { margin-top: var(--s5); margin-bottom: var(--s4); }
+    .featured { padding-bottom: var(--s8); }
+    .featured-card.card { row-gap: var(--s7); padding: var(--s6) var(--s7); }
+    .featured-copy .eyebrow { margin-bottom: var(--s4); }
+    .featured-copy .wordmark { margin-bottom: var(--s4); }
+    .featured-card .featured-tag { margin-bottom: var(--s4); }
+    .featured-copy .btn-row { margin-top: var(--s6); }
+    .featured-card .store-note { margin-top: var(--s3); }
+    .featured-more { padding-top: var(--s7); }
+    .featured-more .band { margin-bottom: var(--s6); }
+    .featured-more .grid { gap: var(--s4); }
+    .featured-next { margin-top: var(--s7); }
+    .featured-card .featured-next .featured-next-q { margin-bottom: var(--s4); }
+    .section { padding: var(--s7) 0; }
+    .grid { gap: var(--s4); }
+    .card { padding: var(--s5); }
+}
