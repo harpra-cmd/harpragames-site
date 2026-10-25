@@ -16,9 +16,12 @@
   from ECONOMY in src/state.js (8 undos and 2 free checks per game), the Hint
   menu from docs/SOLVE_HELP_FLOW.md (Check your path "finds where the path
   stops working"; Guide me and Show me take an ad for a free player), medals
-  from src/stats.js (solve a level's Daily once), past days from the calendar
-  (an ad opens a day for 24 hours; Premium opens them all). Change the app,
-  change this page.
+  from src/stats.js (solve a level's Daily once), streaks same-day only
+  (knighted_daily_ontime), past days from src/calendar.js (an ad unlocks more
+  days of puzzles or trivia for 24 hours; Premium unlocks them all), clues
+  (press and hold; every reveal an ad, ECONOMY.FREE_REVEALS 0), Zen (4 free
+  uses, an ad renews 4), board sizes (src/boardsetup.js PRO_SIZES 10 and 12;
+  obstacles free). Change the app, change this page.
 -->
 <header class="site-header">
     <div class="wrap">
@@ -35,6 +38,50 @@
         <p class="lede">Need a hand? Find answers below. If you still need help, write to <a href="mailto:support@harpragames.com">support@harpragames.com</a>.</p>
     </div>
 
+    <!-- HOW TO PLAY: the app's own Guide → How to Play tiles, word for word,
+         and its Knight Move diagram (index.html .gd-board: the same 5x5 board,
+         squares, indigo knight square, green move numbers and gold L). On the
+         site the L draws itself and the knight makes the jump; still for
+         anyone who asks for reduced motion. -->
+    <section class="card howto" aria-labelledby="h-howto">
+        <h2 class="band" id="h-howto"><span>How to play</span></h2>
+        <div class="howto-grid">
+            <svg class="knight-demo" viewBox="0 0 100 100" role="img" aria-labelledby="kd-title">
+                <title id="kd-title">A knight in the middle of a 5 by 5 board jumps two squares up and one across. The eight squares it can reach are numbered 2, in green.</title>
+                <rect width="100" height="100" class="kd-ground"/>
+                <g class="kd-light">
+                    <rect x="0" y="0" width="20" height="20"/><rect x="40" y="0" width="20" height="20"/><rect x="80" y="0" width="20" height="20"/>
+                    <rect x="20" y="20" width="20" height="20"/><rect x="60" y="20" width="20" height="20"/>
+                    <rect x="0" y="40" width="20" height="20"/><rect x="40" y="40" width="20" height="20"/><rect x="80" y="40" width="20" height="20"/>
+                    <rect x="20" y="60" width="20" height="20"/><rect x="60" y="60" width="20" height="20"/>
+                    <rect x="0" y="80" width="20" height="20"/><rect x="40" y="80" width="20" height="20"/><rect x="80" y="80" width="20" height="20"/>
+                </g>
+                <g class="kd-dark">
+                    <rect x="20" y="0" width="20" height="20"/><rect x="60" y="0" width="20" height="20"/>
+                    <rect x="0" y="20" width="20" height="20"/><rect x="40" y="20" width="20" height="20"/><rect x="80" y="20" width="20" height="20"/>
+                    <rect x="20" y="40" width="20" height="20"/><rect x="60" y="40" width="20" height="20"/>
+                    <rect x="0" y="60" width="20" height="20"/><rect x="40" y="60" width="20" height="20"/><rect x="80" y="60" width="20" height="20"/>
+                    <rect x="20" y="80" width="20" height="20"/><rect x="60" y="80" width="20" height="20"/>
+                </g>
+                <rect class="kd-played" x="40" y="40" width="20" height="20"/>
+                <g class="kd-num">
+                    <text x="30" y="10">2</text><text x="70" y="10">2</text>
+                    <text x="10" y="30">2</text><text x="90" y="30">2</text>
+                    <text x="10" y="70">2</text><text x="90" y="70">2</text>
+                    <text x="30" y="90">2</text><text x="70" y="90">2</text>
+                </g>
+                <path class="kd-path" d="M50 44 L50 14 L57 14"/>
+                <path class="kd-tip" d="M57 9.2 L64 14 L57 18.8 Z"/>
+                <text class="kd-knight" x="50" y="52">&#x265E;&#xFE0E;</text>
+            </svg>
+            <ul class="howto-tiles">
+                <li><strong>Knight Move</strong>Two squares one way, then one across — always an <b>L</b>.</li>
+                <li><strong>Objective</strong>Visit every square exactly once. Reach <b>64/64</b> on the Standard (8×8) board.</li>
+                <li><strong>Valid Next Move</strong>Every green number is a valid next move.</li>
+            </ul>
+        </div>
+    </section>
+
     <section class="faq-group faq">
         <h2>Getting started</h2>
         <details><summary>What is Knighted!?</summary><div class="answer">
@@ -42,18 +89,20 @@
         <details><summary>How does a knight move?</summary><div class="answer">
             <p>In an L-shape: two squares in one direction, then one square to the side. The squares the knight can reach next are marked on the board.</p></div></details>
         <details><summary>How do I complete a puzzle?</summary><div class="answer">
-            <p>Keep jumping until the knight has landed on every square once, without landing on any square twice. On the Daily Puzzle, numbered clue squares show where your tour must pass.</p></div></details>
+            <p>Keep jumping until the knight has landed on every square once, without landing on any square twice. On the Daily Puzzle, numbered clues show which move lands where, and your tour must pass through them.</p></div></details>
     </section>
 
     <section class="faq-group faq">
         <h2>Game modes</h2>
         <details><summary>What is the difference between the Daily Puzzle and Classic?</summary><div class="answer">
             <p>The <strong>Daily Puzzle</strong> is one board a day, the same for every player, at five levels from Easy to Insane. It changes at midnight where you are.</p>
-            <p><strong>Classic</strong> is free play, whenever you like: Free-form or Obstacle mode, on a board size you choose.</p></div></details>
+            <p><strong>Classic</strong> is free play, whenever you like: Free-form or Obstacle mode, on a Small (6×6) or Standard (8×8) board, or Large (10×10) and Expert (12×12) with Premium.</p></div></details>
         <details><summary>Can I play past Daily Puzzles?</summary><div class="answer">
-            <p>Yes, from the calendar. A free player can open a past day for 24 hours by watching a short ad. Premium opens every past puzzle and trivia question for good.</p></div></details>
+            <p>Yes, from the calendar. A free player can watch a short ad to unlock more past days for 24 hours; the same goes for past trivia questions. Premium unlocks every past Daily Puzzle and trivia question for good.</p></div></details>
         <details><summary>How do I earn a medal?</summary><div class="answer">
             <p>Solve the Daily Puzzle at a level and you earn that level's medal: Squire (Easy), Cavalier (Medium), Paladin (Hard), Banneret (Expert) and Viceroy (Insane). Expert and Insane are part of Premium.</p></div></details>
+        <details><summary>How do streaks work?</summary><div class="answer">
+            <p>Solve the Daily Puzzle on its own day, day after day, and your streak grows. Puzzles played later from the calendar count as solved but don't mend a broken streak. Chronicles shows your current and best streak.</p></div></details>
         <details><summary>What is Daily Trivia?</summary><div class="answer">
             <p>A new question about chess and the knight every day, from the home screen. Pick an answer to see if you were right.</p></div></details>
     </section>
@@ -63,8 +112,18 @@
         <details><summary>What does Hint do?</summary><div class="answer">
             <p>Hint offers three kinds of help. <strong>Check your path</strong> finds where your path stops working. <strong>Guide me</strong> points you to the right next move; on the Daily Puzzle it also shows why a wrong move fails. <strong>Show me</strong> plays out the solution.</p>
             <p>Every game comes with 2 free checks of your path. After those, and for Guide me and Show me, a short ad unlocks the help. Premium removes the ads and the limits.</p></div></details>
+        <details><summary>What are clues and pencil marks?</summary><div class="answer">
+            <p>On the Daily Puzzle, press and hold an empty square to pencil in a guess, or to reveal a clue. Pencil marks are free; each clue you reveal takes a short ad, and Premium reveals them without ads.</p></div></details>
         <details><summary>Can I undo a move?</summary><div class="answer">
             <p>Yes. You have 8 undos per game; after that, a short ad unlocks unlimited undos for that game. Premium has no undo limit.</p></div></details>
+    </section>
+
+    <section class="faq-group faq">
+        <h2>Zen Mode and ads</h2>
+        <details><summary>What is Zen Mode?</summary><div class="answer">
+            <p>A calm, distraction-free way to play: the screen clears to the board, with small Undo and Redo buttons beside it. Tap <strong>Zen Mode</strong> on the game screen to start. You get 4 free uses; a short ad gives you 4 more, and Premium has no limit.</p></div></details>
+        <details><summary>Why are there ads, and can I remove them?</summary><div class="answer">
+            <p>Ads keep Knighted! free. Premium removes them on every screen, for good. Where the law requires it, you can review how ads use your data in the app under <strong>Help → Privacy &amp; Data → Review your ad privacy choices</strong>.</p></div></details>
     </section>
 
     <section class="faq-group faq">
