@@ -3,34 +3,109 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Knighted! Help</title>
+<title>Knighted! Help &amp; Support</title>
+<meta name="description" content="Answers to common questions about Knighted!: how to play, the Daily Puzzle, hints, undos, saving progress and restoring Premium.">
 <link rel="icon" href="/knighted/favicon.ico" sizes="any">
 <link rel="icon" href="/knighted/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/knighted/apple-touch-icon.png">
 <link rel="stylesheet" href="/site.css">
 </head>
 <body>
-<header class="site"><a class="brand" href="/">HARPRA GAMES</a><a href="/getknighted">Get Knighted!</a></header>
-<main class="doc">
-    <img class="wordmark" src="/knighted/knighted-logo.webp" alt="Knighted!" width="220" height="122">
-    <h1>Knighted! Help</h1>
-    <p class="lede">Questions, problems or ideas? Write to <a href="mailto:support@harpragames.com">support@harpragames.com</a> and we'll get back to you.</p>
+<!--
+  Every answer here is checked against the app (2026-10-25): undos and checks
+  from ECONOMY in src/state.js (8 undos and 2 free checks per game), the Hint
+  menu from docs/SOLVE_HELP_FLOW.md (Check your path "finds where the path
+  stops working"; Guide me and Show me take an ad for a free player), medals
+  from src/stats.js (solve a level's Daily once), past days from the calendar
+  (an ad opens a day for 24 hours; Premium opens them all). Change the app,
+  change this page.
+-->
+<header class="site-header">
+    <div class="wrap">
+        <a class="brand" href="/"><img src="/brand/harpra-icon-180.png" alt="" width="30" height="30"><span>Harpra Games</span></a>
+        <nav class="site-nav" aria-label="Main"><a href="/getknighted">Knighted!</a><a href="/knighted/support" aria-current="page">Help</a></nav>
+    </div>
+</header>
 
-    <h2>I bought Premium. How do I get it back on a new phone or after reinstalling?</h2>
-    <p>Open <b>Premium</b> and tap <b>Restore Purchase</b>. Use the same store account you bought it with.</p>
+<main>
+<article class="doc">
+    <div class="doc-head">
+        <img src="/knighted/knighted-logo.webp" alt="Knighted!" width="200" height="111">
+        <h1>Help &amp; Support</h1>
+        <p class="lede">Need a hand? Find answers below. If you still need help, write to <a href="mailto:support@harpragames.com">support@harpragames.com</a>.</p>
+    </div>
 
-    <h2>My progress didn't move to my new phone</h2>
-    <p>Knighted! has no account and no server, so your games and stats live only on the phone you play on. A new phone starts fresh; Premium can always be restored.</p>
+    <section class="faq-group faq">
+        <h2>Getting started</h2>
+        <details><summary>What is Knighted!?</summary><div class="answer">
+            <p>A puzzle game built on the Knight's Tour: move a chess knight around the board and visit every square exactly once.</p></div></details>
+        <details><summary>How does a knight move?</summary><div class="answer">
+            <p>In an L-shape: two squares in one direction, then one square to the side. The squares the knight can reach next are marked on the board.</p></div></details>
+        <details><summary>How do I complete a puzzle?</summary><div class="answer">
+            <p>Keep jumping until the knight has landed on every square once, without landing on any square twice. On the Daily Puzzle, numbered clue squares show where your tour must pass.</p></div></details>
+    </section>
 
-    <h2>Daily reminders don't arrive</h2>
-    <p>Turn reminders on in <b>Settings</b>, then check that notifications for Knighted! are allowed in your phone's settings.</p>
+    <section class="faq-group faq">
+        <h2>Game modes</h2>
+        <details><summary>What is the difference between the Daily Puzzle and Classic?</summary><div class="answer">
+            <p>The <strong>Daily Puzzle</strong> is one board a day, the same for every player, at five levels from Easy to Insane. It changes at midnight where you are.</p>
+            <p><strong>Classic</strong> is free play, whenever you like: Free-form or Obstacle mode, on a board size you choose.</p></div></details>
+        <details><summary>Can I play past Daily Puzzles?</summary><div class="answer">
+            <p>Yes, from the calendar. A free player can open a past day for 24 hours by watching a short ad. Premium opens every past puzzle and trivia question for good.</p></div></details>
+        <details><summary>How do I earn a medal?</summary><div class="answer">
+            <p>Solve the Daily Puzzle at a level and you earn that level's medal: Squire (Easy), Cavalier (Medium), Paladin (Hard), Banneret (Expert) and Viceroy (Insane). Expert and Insane are part of Premium.</p></div></details>
+        <details><summary>What is Daily Trivia?</summary><div class="answer">
+            <p>A new question about chess and the knight every day, from the home screen. Pick an answer to see if you were right.</p></div></details>
+    </section>
 
-    <h2>Everyone gets the same Daily puzzle?</h2>
-    <p>Yes. Each date has one puzzle per level, the same for every player, and it changes at midnight where you are.</p>
+    <section class="faq-group faq">
+        <h2>Hints and undo</h2>
+        <details><summary>What does Hint do?</summary><div class="answer">
+            <p>Hint offers three kinds of help. <strong>Check your path</strong> finds where your path stops working. <strong>Guide me</strong> points you to the right next move; on the Daily Puzzle it also shows why a wrong move fails. <strong>Show me</strong> plays out the solution.</p>
+            <p>Every game comes with 2 free checks of your path. After those, and for Guide me and Show me, a short ad unlocks the help. Premium removes the ads and the limits.</p></div></details>
+        <details><summary>Can I undo a move?</summary><div class="answer">
+            <p>Yes. You have 8 undos per game; after that, a short ad unlocks unlimited undos for that game. Premium has no undo limit.</p></div></details>
+    </section>
 
-    <h2>Privacy</h2>
-    <p>See the <a href="/knighted/privacy">Knighted! privacy policy</a>.</p>
+    <section class="faq-group faq">
+        <h2>Progress and devices</h2>
+        <details><summary>Is my progress saved?</summary><div class="answer">
+            <p>Yes, on your phone. Your games, stats, streaks, medals and settings are kept on the device you play on. There is no account, so nothing is stored online.</p></div></details>
+        <details><summary>Will my progress move to a new phone?</summary><div class="answer">
+            <p class="callout">No. Progress lives only on the phone you play on, so a new phone, or reinstalling the app, starts fresh.</p>
+            <p>Premium is different: it belongs to your store account and can always be restored (below).</p></div></details>
+    </section>
+
+    <section class="faq-group faq">
+        <h2>Premium and purchases</h2>
+        <details><summary>How do I restore Premium?</summary><div class="answer">
+            <p>Open <strong>Premium</strong> in the app and tap <strong>Restore Purchase</strong>. Use the same store account you bought it with.</p></div></details>
+        <details><summary>What does Premium include?</summary><div class="answer">
+            <p>No ads, Expert and Insane, every past Daily Puzzle and trivia question, bigger boards, all eight themes, no limits on hints, undos and Zen, and offline access. It is a one-time purchase, yours forever. <a href="/getknighted#h-premium">See everything Premium includes</a>.</p></div></details>
+    </section>
+
+    <section class="faq-group faq">
+        <h2>Technical help</h2>
+        <details><summary>Daily reminders don't arrive</summary><div class="answer">
+            <p>Turn reminders on in <strong>Settings</strong>, then check that notifications for Knighted! are allowed in your phone's settings.</p></div></details>
+        <details><summary>The game isn't behaving as expected</summary><div class="answer">
+            <p>Close Knighted! fully and open it again, and make sure the app is up to date in your store. If ads keep failing to load, restarting the phone often helps.</p>
+            <p class="callout">Don't clear the app's data or reinstall it to fix a problem: that deletes your progress, which is stored only on your phone. Write to us first.</p></div></details>
+    </section>
+
+    <section class="faq-group">
+        <h2>Still need help?</h2>
+        <p>Email <a href="mailto:support@harpragames.com">support@harpragames.com</a> and we'll get back to you. See also the <a href="/knighted/privacy">privacy policy</a>.</p>
+    </section>
+</article>
 </main>
-<footer class="site"><span>© Harpra Games</span><a href="/">harpragames.com</a></footer>
+
+<footer class="site-footer">
+    <div class="wrap">
+        <span>© 2026 Harpra Games</span>
+        <nav aria-label="Footer"><a href="/getknighted">Knighted!</a><a href="/knighted/support" aria-current="page">Help &amp; Support</a><a href="/knighted/privacy">Privacy Policy</a><a href="mailto:support@harpragames.com">support@harpragames.com</a></nav>
+    </div>
+</footer>
+<script src="/analytics.js"></script>
 </body>
 </html>

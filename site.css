@@ -1,180 +1,249 @@
-/* Harpra Games site — one stylesheet for every page. Colours follow the
-   game's dark navy and gold so the page a share card opens looks like the
-   app it advertises. No web fonts, no trackers, nothing fetched off-site. */
+/* Harpra Games site — one stylesheet for every page.
+ *
+ * THE APP IS THE SOURCE OF TRUTH. Every token below was read off the running
+ * Knighted! app (Royal Night theme, 2026-10-25): the navy, the gold metal
+ * gradient its titles are lettered in, the Cinzel capitals of its section
+ * bands, the pillow-faced cards with a thin gold edge, the gold Upgrade
+ * button. Change the app's look and these follow; do not invent new ones.
+ * Fonts are self-hosted (site/fonts, copied from public/fonts); nothing is
+ * fetched from another site.
+ */
+@font-face { font-family: 'Inter';  src: url('/fonts/inter-400-normal-latin.woff2') format('woff2');  font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Inter';  src: url('/fonts/inter-600-normal-latin.woff2') format('woff2');  font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Outfit'; src: url('/fonts/outfit-600-normal-latin.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Cinzel'; src: url('/fonts/cinzel-700-normal-latin.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
 :root {
-    --bg: #0f172a;
-    --panel: #172036;
-    --line: rgba(255, 255, 255, 0.12);
-    --text: #f1efe6;
-    --muted: rgba(241, 239, 230, 0.72);
-    --gold: #fbbf24;
-    --gold-deep: #d97706;
+    /* colour -- the app's dark theme */
+    --color-background: #0b1020;                 /* --bg-color */
+    --color-surface: radial-gradient(130% 120% at 50% 0%, #1a2340 0%, #121a2e 55%, #0b1020 100%); /* --pill-face */
+    --color-surface-flat: #121a2e;
+    --color-surface-raised: #1a2340;
+    --color-primary: #d4af37;                    /* --accent-gold */
+    --color-primary-hover: #fce38a;
+    --gold-gradient: linear-gradient(180deg, #fce38a 0%, #d4af37 45%, #b8860b 100%); /* --logo-gradient */
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #b9c2d6;             /* --text-secondary */
+    --color-text-cream: #f7e7b2;                 /* --text-primary (the app's warm lede colour) */
+    --color-ink-on-gold: #1c1403;                /* --premium-buy-ink */
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-accent: rgba(212, 175, 55, 0.35); /* --home2-card-border */
+    --color-focus: #fce38a;
+    /* type */
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-head: 'Outfit', 'Inter', system-ui, sans-serif;
+    --font-label: 'Cinzel', Georgia, serif;
+    /* shape */
+    --radius-card: 18px;
+    --radius-panel: 16px;
+    --radius-button: 12px;
+    --shadow-card: inset 0 2px 2px rgba(255, 255, 255, 0.12), inset 0 -3px 5px rgba(0, 0, 0, 0.35), 0 8px 22px rgba(0, 0, 0, 0.35);
+    --shadow-shot: 0 16px 40px rgba(0, 0, 0, 0.5);
+    /* space (multiples of 4/8) */
+    --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px; --s7: 64px; --s8: 96px;
+    --content: 1120px;
     color-scheme: dark;
 }
+
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 html, body { margin: 0; }
 body {
-    background: var(--bg);
-    color: var(--text);
-    font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background:
+        radial-gradient(60% 34rem at 50% -6rem, rgba(212, 175, 55, 0.12), transparent 70%),
+        var(--color-background);
+    color: var(--color-text-primary);
+    font: 400 17px/1.6 var(--font-body);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
+    overflow-x: clip;
 }
-a { color: var(--gold); }
-main { flex: 1; width: 100%; max-width: 720px; margin: 0 auto; padding: 32px 16px 48px; }
-header.site, footer.site {
-    width: 100%; max-width: 720px; margin: 0 auto; padding: 16px;
-    display: flex; gap: 16px; align-items: center; justify-content: space-between;
-}
-header.site a.brand { color: var(--text); text-decoration: none; font-weight: 700; letter-spacing: 0.04em; }
-footer.site { border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; flex-wrap: wrap; }
-footer.site a { color: var(--muted); }
-h1 { font-size: 34px; line-height: 1.15; margin: 0 0 8px; }
-h2 { font-size: 22px; margin: 32px 0 8px; }
-p.lede { color: var(--muted); font-size: 19px; margin: 0 0 24px; }
-
-/* The store chooser and the game card */
-.hero { text-align: center; padding-top: 16px; }
-/* The Knighted! wordmark (the app's home-screen logo, resized for the web). */
-img.wordmark { display: block; max-width: 100%; height: auto; margin: 0 0 8px; }
-.hero h1.wordmark-h { margin: 8px 0 4px; }
-.hero img.wordmark { margin: 0 auto; }
-.stores { display: flex; flex-direction: column; gap: 12px; max-width: 340px; margin: 24px auto 8px; }
-.store-btn {
-    display: block; padding: 14px 20px; border-radius: 14px; text-decoration: none; font-weight: 700;
-    background: linear-gradient(180deg, var(--gold), var(--gold-deep)); color: #1b1404;
-}
-.store-btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
-.note { color: var(--muted); font-size: 15px; }
+img { max-width: 100%; height: auto; }
+a { color: var(--color-primary-hover); text-underline-offset: 3px; }
+a:hover { color: #fff3c4; }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; border-radius: 4px; }
+.wrap { width: 100%; max-width: var(--content); margin: 0 auto; padding: 0 16px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .hidden { display: none !important; }
 
-.card {
-    display: flex; gap: 16px; align-items: center; padding: 16px; border-radius: 16px;
-    background: var(--panel); border: 1px solid var(--line); color: var(--text); text-decoration: none;
+/* ── Type ─────────────────────────────────────────────────────────────── */
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.2; margin: 0 0 var(--s3); }
+h1 { font-size: clamp(32px, 7vw, 52px); }
+h2 { font-size: clamp(24px, 4.6vw, 32px); }
+h3 { font-size: clamp(18px, 3.4vw, 21px); }
+p { margin: 0 0 var(--s3); }
+.lede { font-size: clamp(17px, 2.6vw, 19px); color: var(--color-text-cream); }
+.muted { color: var(--color-text-secondary); }
+.small { font-size: 15px; }
+/* Gold metal lettering, as the app's titles (background-clip: text). */
+.gold { background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+/* The app's section band: Cinzel capitals between diamonds (— ◆ TEXT ◆ —). */
+.band {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    font: 700 13px/1.3 var(--font-label); letter-spacing: 0.18em; text-transform: uppercase;
+    margin: 0 0 var(--s4);
 }
-.card img { width: 72px; height: 72px; border-radius: 16px; flex: none; }
-.card strong { display: block; font-size: 19px; }
-.card span { color: var(--muted); font-size: 15px; }
+.band span { background: var(--gold-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.band::before, .band::after { content: ""; height: 1px; flex: 0 1 64px; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.55)); }
+.band::after { transform: scaleX(-1); }
+.band span::before, .band span::after { content: "◆"; font-size: 8px; padding: 0 10px; vertical-align: 2px; }
+.band.left { justify-content: flex-start; }
+.band.left::before { display: none; }
 
-/* ── The home page (Harpra Games) ─────────────────────────────────────── */
-body.home {
-    /* A warm gold glow behind the logo and a cool one behind the game, over
-       the app's navy, so the page has depth without any image weight. */
-    background:
-        radial-gradient(60% 38% at 50% 0%, rgba(251, 191, 36, 0.16), transparent 70%),
-        radial-gradient(70% 45% at 50% 70%, rgba(59, 130, 246, 0.14), transparent 75%),
-        var(--bg);
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 52px; padding: 12px 26px; border-radius: var(--radius-button);
+    font: 700 16px/1.2 var(--font-label); letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; transition: filter 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 }
-body.home main { text-align: center; padding-top: 48px; }
-h1.studio-hero { margin: 0 0 12px; }
-/* The Harpra Games logo, as the app's splash shows it: centred, a soft white
-   glow, fading up from 80%. */
-img.studio-logo {
-    display: block; margin: 0 auto; width: 250px; max-width: 64%; height: auto;
+.btn-primary { background: var(--gold-gradient); color: var(--color-ink-on-gold); box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4); }
+.btn-primary:hover { color: var(--color-ink-on-gold); filter: brightness(1.07); }
+.btn-primary:active { transform: translateY(1px); filter: brightness(0.95); }
+.btn-secondary { background: var(--color-surface); color: var(--color-text-cream); border: 1px solid var(--color-border-accent); box-shadow: var(--shadow-card); }
+.btn-secondary:hover { color: #fff3c4; border-color: rgba(212, 175, 55, 0.7); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.store-note { font-size: 14px; color: var(--color-text-secondary); margin: 10px 0 0; }
+
+/* ── Header and footer ────────────────────────────────────────────────── */
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--color-text-primary); }
+.brand img { width: 30px; height: 30px; border-radius: 7px; }
+.brand span { font: 600 15px/1 var(--font-head); letter-spacing: 0.14em; text-transform: uppercase; }
+.site-nav { display: flex; gap: 4px; }
+.site-nav a { padding: 10px 12px; border-radius: 10px; color: var(--color-text-secondary); text-decoration: none; font-weight: 600; font-size: 15px; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--color-text-cream); background: rgba(255, 255, 255, 0.04); }
+.site-footer { margin-top: auto; border-top: 1px solid var(--color-border); padding: var(--s5) 0 var(--s6); font-size: 14px; color: var(--color-text-secondary); }
+.site-footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; justify-content: space-between; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.site-footer a { color: var(--color-text-secondary); }
+.site-footer a:hover { color: var(--color-text-cream); }
+
+/* ── Sections ─────────────────────────────────────────────────────────── */
+main { flex: 1; }
+.section { padding: var(--s6) 0; }
+.section-tight { padding: var(--s5) 0; }
+.center { text-align: center; }
+.measure { max-width: 64ch; margin-left: auto; margin-right: auto; }
+
+/* Hero: text and the app side by side on wide screens, stacked on phones. */
+.hero { padding: var(--s5) 0 var(--s6); }
+.hero .wrap { display: grid; gap: var(--s5); align-items: center; }
+.hero-copy { text-align: center; }
+.hero-copy .btn-row { justify-content: center; }
+.hero-art { display: flex; justify-content: center; }
+@media (min-width: 880px) {
+    .hero { padding: var(--s6) 0 var(--s7); }
+    .hero .wrap { grid-template-columns: 1.15fr 0.85fr; gap: var(--s6); }
+    .hero-copy { text-align: left; }
+    .hero-copy .btn-row { justify-content: flex-start; }
+}
+.eyebrow { font: 700 13px/1.3 var(--font-label); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary); margin: 0 0 var(--s3); }
+.wordmark { display: block; width: min(100%, 420px); height: auto; margin: 0 auto var(--s3); filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45)); }
+@media (min-width: 880px) { .hero-copy .wordmark { margin-left: 0; } }
+
+/* Home: the Harpra Games logo as the app's splash shows it (index.html #splash-logo). */
+.studio-logo-wrap { text-align: center; padding: var(--s4) 16px 0; }
+.studio-logo {
+    display: inline-block; width: 200px; max-width: 52vw; height: auto;
     filter: drop-shadow(0 10px 25px rgba(255, 255, 255, 0.15));
     animation: studio-in 1.2s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
-@keyframes studio-in { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-.studio-tag { color: var(--muted); font-size: 19px; margin: 0 0 40px; letter-spacing: 0.02em; animation: fade-up 1s 0.4s ease both; }
-.section-label {
-    font-size: 13px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--gold); margin: 0 0 16px;
-}
-.section-label::before, .section-label::after { content: "◆"; font-size: 8px; vertical-align: middle; margin: 0 12px; opacity: 0.7; }
+@keyframes studio-in { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: none; } }
 
-/* The game, as a feature card with its full logo. */
-a.game-feature {
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
-    padding: 28px 20px 26px; margin: 0 auto 48px; max-width: 560px; border-radius: 22px;
-    text-decoration: none; color: var(--text);
-    background: linear-gradient(180deg, rgba(23, 32, 54, 0.92), rgba(15, 23, 42, 0.92));
-    border: 1px solid rgba(251, 191, 36, 0.28);
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    animation: fade-up 1s 0.6s ease both;
-}
-a.game-feature:hover, a.game-feature:focus-visible {
-    transform: translateY(-4px);
-    border-color: rgba(251, 191, 36, 0.6);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(251, 191, 36, 0.18);
-}
-a.game-feature img.wordmark { width: 360px; margin: 0 auto; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5)); }
-.game-pitch { color: var(--text); font-size: 18px; line-height: 1.5; }
-.game-modes { color: var(--muted); font-size: 14px; letter-spacing: 0.04em; }
-.store-btn.game-cta { margin-top: 6px; min-width: 220px; }
-.studio-contact { margin: 0 0 32px; }
-.game-pitch span { white-space: nowrap; }
+/* A screenshot from the app, in a quiet phone-shaped frame. */
+.shot { display: block; border-radius: 26px; border: 3px solid #26304a; box-shadow: var(--shadow-shot); background: #0b1020; }
+.hero-art .shot { width: min(78vw, 320px); }
+@media (min-width: 880px) { .hero-art .shot { width: 280px; } }
+.site-header .header-home { justify-content: flex-end; }
 
-/* ── Get Knighted! (the store chooser) — the richer sections ─────────── */
-main.hero .section-label { margin-top: 64px; }
-.section-sub { margin: -8px 0 18px; }
+/* Cards: the app's pillow face with a thin gold edge. */
+.card { background: var(--color-surface); border: 1px solid var(--color-border-accent); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: var(--s4); }
+.grid { display: grid; gap: var(--s3); }
+@media (min-width: 720px) { .grid-2 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(3, 1fr); } .grid-4 { grid-template-columns: repeat(4, 1fr); } }
+.card h3 { margin-bottom: var(--s2); }
+.card p { color: var(--color-text-secondary); margin: 0; font-size: 16px; }
+.card .card-art { width: 64px; height: 64px; object-fit: contain; margin-bottom: var(--s3); }
 
-/* Screens: a swipeable row of phone shots. */
+/* The swipeable row of screenshots. */
 .gallery {
-    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
-    padding: 8px 4px 18px; margin: 0 -4px; scrollbar-width: thin;
-    scrollbar-color: rgba(251, 191, 36, 0.4) transparent;
+    display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    padding: 8px 16px 20px; margin: 0 -16px; scrollbar-width: thin; scrollbar-color: rgba(212, 175, 55, 0.4) transparent;
 }
-.gallery figure { flex: 0 0 210px; margin: 0; scroll-snap-align: center; }
-.gallery img {
-    display: block; width: 100%; height: auto; border-radius: 22px;
-    border: 3px solid #26304a; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
-}
-.gallery figcaption { margin-top: 10px; color: var(--muted); font-size: 14px; }
-.gallery-hint { margin: 0; font-size: 13px; }
-@media (min-width: 760px) { .gallery-hint { display: none; } }
+.gallery figure { flex: 0 0 min(64vw, 230px); margin: 0; scroll-snap-align: center; }
+.gallery figcaption { margin-top: 12px; font-size: 15px; color: var(--color-text-secondary); text-align: center; }
+.gallery figcaption strong { display: block; color: var(--color-text-cream); font-weight: 600; }
+.gallery-hint { text-align: center; font-size: 14px; color: var(--color-text-secondary); margin: 0; }
+/* Wide screens: all six in one row, no scrolling. */
+@media (min-width: 1100px) { .gallery { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; overflow: visible; margin: 0; padding: 8px 0 20px; } .gallery-hint { display: none; } }
 
-/* Ways to play. */
-ul.features { list-style: none; padding: 0; margin: 0 auto; display: grid; gap: 14px; text-align: left; max-width: 620px; }
-ul.features li {
-    display: grid; grid-template-columns: 52px 1fr; column-gap: 16px; align-items: center;
-    padding: 16px 18px; border-radius: 16px; background: rgba(23, 32, 54, 0.75); border: 1px solid var(--line);
-}
-.feat-ico {
-    grid-row: span 2; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
-    border: 1.5px solid rgba(251, 191, 36, 0.7); color: var(--gold); font-size: 26px; line-height: 1;
-}
-.feat-ico svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-ul.features strong { font-size: 18px; color: var(--gold); }
-ul.features span:not(.feat-ico) { color: var(--muted); font-size: 15px; }
+/* How it works: three steps, each with a real board. */
+.steps { counter-reset: step; }
+.step { text-align: center; }
+.step img { width: 100%; max-width: 280px; border-radius: 14px; box-shadow: var(--shadow-shot); margin: 0 auto var(--s3); display: block; }
+.step h3::before { counter-increment: step; content: counter(step); display: inline-grid; place-items: center; width: 30px; height: 30px; margin-right: 10px; border-radius: 50%; font: 700 15px/1 var(--font-label); color: var(--color-ink-on-gold); background: var(--gold-gradient); vertical-align: 3px; }
+
+/* Medals: the app's art, one per level. */
+.medals { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s2); list-style: none; padding: 0; margin: 0 auto; max-width: 760px; }
+.medals li { text-align: center; }
+.medals img { width: 100%; max-width: 104px; filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5)); }
+.medals strong { display: block; font: 700 clamp(11px, 2.4vw, 15px)/1.2 var(--font-label); letter-spacing: 0.04em; color: var(--color-text-cream); margin-top: 6px; }
+.medals span { display: block; font-size: clamp(11px, 2.4vw, 14px); color: var(--color-text-secondary); }
+.medals .prem { color: var(--color-primary); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 
 /* Themes: the same board in all eight. */
-ul.themes { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-ul.themes li { position: relative; }
-ul.themes img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45); }
-ul.themes span { display: block; margin-top: 8px; font-size: 13px; color: var(--muted); }
-ul.themes li.pro::after {
-    content: "PREMIUM"; position: absolute; top: 6px; right: 6px; padding: 2px 6px; border-radius: 6px;
-    font-size: 9px; font-weight: 800; letter-spacing: 0.12em; color: #1b1404;
-    background: linear-gradient(180deg, var(--gold), var(--gold-deep));
-}
-@media (max-width: 560px) { ul.themes { grid-template-columns: repeat(2, 1fr); } }
-
-/* Premium: the Premium screen's own tiles. */
-.premium {
-    padding: 26px 18px 18px; border-radius: 22px; border: 1px solid rgba(251, 191, 36, 0.3);
-    background: linear-gradient(180deg, rgba(251, 191, 36, 0.08), rgba(23, 32, 54, 0.85) 40%);
-}
-.premium-lede { font-size: 22px; font-weight: 700; margin: 0; }
-.premium-sub { color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; font-size: 13px; margin: 6px 0 20px; }
-ul.perks { list-style: none; padding: 0; margin: 0 0 14px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-ul.perks li { padding: 12px 8px; border-radius: 12px; background: rgba(15, 23, 42, 0.7); border: 1px solid var(--line); }
-ul.perks strong { display: block; color: var(--gold); font-size: 14px; }
-ul.perks span { display: block; color: var(--muted); font-size: 12.5px; margin-top: 4px; }
-@media (max-width: 560px) { ul.perks { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 440px) {
-    .studio-tag { font-size: 16px; }
-    .game-pitch { font-size: 15.5px; }
-    a.game-feature { padding: 24px 14px 22px; }
-}
-@keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) {
-    img.studio-logo, .studio-tag, a.game-feature { animation: none; }
-    a.game-feature { transition: none; }
+.themes { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s3); }
+@media (min-width: 640px) { .themes { grid-template-columns: repeat(4, 1fr); } }
+.themes li { position: relative; text-align: center; }
+.themes img { display: block; width: 100%; border-radius: 12px; box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45); }
+.themes span { display: block; margin-top: 8px; font-size: 14px; color: var(--color-text-secondary); }
+.themes li.pro::after {
+    content: "PREMIUM"; position: absolute; top: 6px; right: 6px; padding: 2px 7px; border-radius: 6px;
+    font: 700 10px/1.6 var(--font-body); letter-spacing: 0.12em; color: var(--color-ink-on-gold); background: var(--gold-gradient);
 }
 
-/* Long-form pages (privacy, support) */
-.doc p, .doc li { color: var(--text); }
-.doc .meta { color: var(--muted); font-size: 15px; }
-.todo { background: rgba(251, 191, 36, 0.18); color: var(--gold); padding: 0 4px; border-radius: 4px; }
+/* Premium: grouped perks, the app's own wording. */
+.premium { padding: var(--s5) var(--s4); }
+.perk-groups { display: grid; gap: var(--s4); margin: var(--s4) 0; }
+@media (min-width: 820px) { .perk-groups { grid-template-columns: repeat(3, 1fr); } }
+.perk-groups h3 { font: 700 14px/1.3 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); }
+.perk-groups ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.perk-groups li { padding-left: 20px; position: relative; color: var(--color-text-secondary); font-size: 15px; }
+.perk-groups li::before { content: "◆"; position: absolute; left: 0; top: 2px; font-size: 9px; color: var(--color-primary); }
+.perk-groups li strong { color: var(--color-text-primary); font-weight: 600; }
+
+/* The iPhone "coming soon" panel (store chooser, until the App Store link exists). */
+.soon-panel { margin: 0 auto; max-width: 460px; padding: var(--s4); text-align: center; }
+.hero-copy .soon-panel { margin-left: auto; margin-right: auto; }
+@media (min-width: 880px) { .hero-copy .soon-panel { margin-left: 0; } }
+.soon-panel .soon-title { font: 600 clamp(24px, 5vw, 30px)/1.2 var(--font-head); margin: 4px 0 8px; }
+.soon-panel p { color: var(--color-text-secondary); margin: 0 0 12px; }
+.soon-panel .soon-android { font-size: 15px; margin: 0; }
+
+/* Long-form pages (Help, Privacy): reading comfort first. */
+.doc { max-width: 72ch; margin: 0 auto; padding: var(--s5) 16px var(--s6); }
+.doc .doc-head { text-align: center; margin-bottom: var(--s5); }
+.doc .doc-head img { width: 200px; margin: 0 auto var(--s3); display: block; }
+.doc h2 { font-size: clamp(20px, 3.6vw, 24px); margin-top: var(--s5); }
+.doc p, .doc li { color: #e2e8f0; }
+.doc .meta { color: var(--color-text-secondary); font-size: 15px; }
+.doc ul { padding-left: 1.2em; }
+.doc li { margin-bottom: 6px; }
+
+/* FAQ accordions (native <details>: keyboard and touch for free). */
+.faq-group { margin-bottom: var(--s5); }
+.faq-group > h2 { font: 700 14px/1.3 var(--font-label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-primary); margin: 0 0 var(--s3); }
+.faq details { border: 1px solid var(--color-border-accent); border-radius: var(--radius-panel); background: var(--color-surface); margin-bottom: 10px; }
+.faq summary { cursor: pointer; list-style: none; padding: 16px 48px 16px 18px; font-weight: 600; color: var(--color-text-cream); position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font: 600 22px/1 var(--font-head); color: var(--color-primary); }
+.faq details[open] summary::after { content: "–"; }
+.faq .answer { padding: 0 18px 16px; }
+.faq .answer p { color: var(--color-text-secondary); font-size: 16px; }
+.faq .answer p:last-child { margin-bottom: 0; }
+.callout { border-left: 3px solid var(--color-primary); padding: 4px 0 4px 14px; color: var(--color-text-cream) !important; }
+
+/* ── Motion: subtle, and none for anyone who asks for none ───────────── */
+.fade-up { animation: fade-up 0.8s ease both; }
+@keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

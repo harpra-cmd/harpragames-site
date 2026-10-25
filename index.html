@@ -3,30 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Harpra Games</title>
-<meta name="description" content="Harpra Games — calm, clever puzzle games for your phone.">
+<title>Harpra Games — Calm, Clever Puzzle Games</title>
+<meta name="description" content="Thoughtful puzzle games for your phone from Harpra Games, including Knighted!, a modern take on the classic Knight's Tour.">
 <link rel="icon" href="/brand/harpra-icon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/brand/harpra-icon-180.png">
+<link rel="preload" href="/fonts/outfit-600-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/site.css">
 </head>
-<body class="home">
+<body>
+<header class="site-header">
+    <div class="wrap header-home">
+        <!-- No brand link here: the studio logo is the first thing on the page. -->
+        <nav class="site-nav" aria-label="Main"><a href="/getknighted">Knighted!</a><a href="/knighted/support">Help</a></nav>
+    </div>
+</header>
+
 <main>
-    <!-- The logo arrives the way it does on the app's splash screen:
-         fading up from 80% with a soft white glow (index.html #splash-logo). -->
-    <h1 class="studio-hero"><img class="studio-logo" src="/brand/harpra-logo.png" alt="Harpra Games" width="250" height="240"></h1>
-    <p class="studio-tag">Calm, clever puzzle games for your phone.</p>
+    <!-- The Harpra Games logo, centred at the top as the app's splash shows
+         it: fading up from 80% with a soft white glow (owner, 2026-10-24). -->
+    <div class="studio-logo-wrap"><img class="studio-logo" src="/brand/harpra-logo.png" alt="Harpra Games" width="220" height="212"></div>
 
-    <h2 class="section-label">Our games</h2>
-    <a class="game-feature" href="/getknighted">
-        <img class="wordmark" src="/knighted/knighted-logo.webp" alt="Knighted!" width="360" height="199">
-        <span class="game-pitch"><span>One knight. 64 squares. No square twice.</span><br><span>The thousand-year-old puzzle, reborn.</span></span>
-        <span class="game-modes">Daily puzzle · Classic tours · Daily trivia</span>
-        <span class="store-btn game-cta">Get Knighted!</span>
-    </a>
+    <!-- ── Hero: the studio's promise, and its game ──────────────────── -->
+    <section class="hero">
+        <div class="wrap">
+            <div class="hero-copy fade-up">
+                <h1>Calm, clever puzzle games <span class="gold">for your phone.</span></h1>
+                <p class="lede">Meet Knighted! — a thoughtful take on the classic Knight's Tour. Solve the Daily Puzzle, explore Classic tours and earn a medal at every level.</p>
+                <div class="btn-row">
+                    <a class="btn btn-primary" data-count="home-get-knighted" href="/getknighted">Get Knighted!</a>
+                    <a class="btn btn-secondary" data-count="home-explore" href="/getknighted#game">Explore the game</a>
+                </div>
+            </div>
+            <div class="hero-art">
+                <img class="shot" src="/knighted/shots/shot-home.webp" alt="The Knighted! home screen: Play Classic, Daily Puzzle and Daily Trivia" width="480" height="1066">
+            </div>
+        </div>
+    </section>
 
-    <h2 class="section-label">Say hello</h2>
-    <p class="studio-contact"><a href="mailto:support@harpragames.com">support@harpragames.com</a></p>
+    <!-- ── The featured game ─────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="h-meet">
+        <div class="wrap center">
+            <h2 class="band" id="h-meet"><span>Meet Knighted!</span></h2>
+            <img class="wordmark" src="/knighted/knighted-logo.webp" alt="Knighted!" width="420" height="232" loading="lazy">
+            <p class="lede measure">One knight. 64 squares. No square twice.</p>
+            <p class="measure muted">A classic logic puzzle becomes a daily ritual of planning, patience and clever moves. Play at your own pace, try new boards and build a record of your progress.</p>
+            <div class="grid grid-3" style="margin-top: var(--s5); text-align: left;">
+                <div class="card"><img class="card-art" src="/knighted/art/medal-medium.webp" alt="" width="64" height="64" loading="lazy"><h3 class="gold">Daily challenges</h3><p>A new Daily Puzzle every day, the same for every player, at five levels from Easy to Insane.</p></div>
+                <div class="card"><img class="card-art" src="/knighted/art/icon-knight.webp" alt="" width="64" height="64" loading="lazy"><h3 class="gold">Play your way</h3><p>Classic tours on boards from 6×6 to 12×12, with or without obstacles, whenever you like.</p></div>
+                <div class="card"><img class="card-art" src="/knighted/art/medal-insane.webp" alt="" width="64" height="64" loading="lazy"><h3 class="gold">Track your journey</h3><p>Streaks, best times and a medal for every level you master, from Squire to Viceroy.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Closing ───────────────────────────────────────────────────── -->
+    <section class="section center" aria-labelledby="h-next">
+        <div class="wrap">
+            <h2 id="h-next">Ready for your next move?</h2>
+            <p class="muted measure">Step into Knighted! and discover a new way to enjoy the Knight's Tour.</p>
+            <div class="btn-row" style="justify-content: center;"><a class="btn btn-primary" data-count="home-get-knighted-bottom" href="/getknighted">Get Knighted!</a></div>
+        </div>
+    </section>
 </main>
-<footer class="site"><span>© Harpra Games</span><a href="/knighted/privacy">Knighted! privacy</a></footer>
+
+<footer class="site-footer">
+    <div class="wrap">
+        <span>© 2026 Harpra Games</span>
+        <nav aria-label="Footer"><a href="/getknighted">Knighted!</a><a href="/knighted/support">Help &amp; Support</a><a href="/knighted/privacy">Privacy Policy</a><a href="mailto:support@harpragames.com">support@harpragames.com</a></nav>
+    </div>
+</footer>
+<script src="/analytics.js"></script>
 </body>
 </html>

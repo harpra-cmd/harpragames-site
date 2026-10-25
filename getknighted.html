@@ -3,121 +3,220 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Get Knighted!</title>
-<meta name="description" content="Knighted! — the Knight's Tour puzzle, reborn. A Daily puzzle, Classic tours, Daily Trivia and eight themes. Free on your phone.">
+<title>Knighted! — The Knight's Tour Puzzle, Reimagined</title>
+<meta name="description" content="Knighted! — one knight, 64 squares, no square twice. A Daily Puzzle at five levels, Classic tours, Daily Trivia and eight themes. Free on your phone.">
 <link rel="icon" href="/knighted/favicon.ico" sizes="any">
 <link rel="icon" href="/knighted/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/knighted/apple-touch-icon.png">
+<link rel="preload" href="/fonts/outfit-600-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/site.css">
 </head>
-<body class="home">
+<body>
 <!--
-  THE STORE CHOOSER. Every share link and every QR code the app has ever put
-  on a card points here (src/sharelink.js SHARE_PAGE, src/assets/qr_getknighted.js),
-  so this address must never move or break. Phones are sent straight to their
-  own store; everyone else (computers, and iPhones until the App Store link
-  exists) sees this page.
+  THE STORE CHOOSER AND THE KNIGHTED! PAGE. Every share link and every card
+  QR the app makes points here (src/sharelink.js), so this address must never
+  move or break.
+
+  Phones arriving from OUTSIDE the site (a share, a QR, a typed address) go
+  straight to their own store; a visitor who came from another page of this
+  site is reading about the game, so stays. Computers, and iPhones until the
+  App Store link exists, see the page.
 
   Share links carry ?src=<context> (daily, classic, invite, trivia, stats,
-  daily_stuck) and, when a card image went with them, &look=<card format>
-  (share.js tagLook); a QR scan or a typed address has neither. Play receives
-  them as the install referrer (utm_medium, utm_content) -- the same tags the
-  app used to put on its Play links.
+  daily_stuck) and &look=<card format>; the card QR carries ?src=qr. Play
+  gets them as the install referrer (utm_source share|qr|direct|site,
+  utm_medium, utm_content); analytics.js counts the arrival.
 
-  TO LAUNCH ON IPHONE: paste the App Store URL into APP_STORE below. Nothing
-  in the app changes.
+  TO LAUNCH ON IPHONE: paste the App Store URL into APP_STORE below.
 
-  Screenshots (knighted/shots/) are taken from the app itself through the test
-  harness routes (scripts/lib/app-routes.mjs) at 412x915, 2x. Every claim
-  below is the app's own: the Premium perks are the Premium screen's tiles,
-  word for word. No price is shown -- it differs by country and comes from
-  the store.
+  Every claim here is the app's own (2026-10-25): Premium perks word for word
+  from its Premium screen, medals from stats.js, undos and checks from
+  ECONOMY. Screenshots: knighted/shots (site/README.md says how to retake).
+  No price -- it differs by country and comes from the store.
 -->
-<header class="site"><a class="brand" href="/">HARPRA GAMES</a></header>
-<main class="hero">
-    <h1 class="wordmark-h"><img class="wordmark" src="/knighted/knighted-logo.webp" alt="Knighted!" width="340" height="188"></h1>
-    <p class="lede">One knight. 64 squares. No square twice.<br>The thousand-year-old puzzle, free on your phone.</p>
-
-    <div class="stores">
-        <a class="store-btn js-play" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get it on Google Play</a>
-        <a class="store-btn js-appstore hidden" href="#">Download on the App Store</a>
+<header class="site-header">
+    <div class="wrap">
+        <a class="brand" href="/"><img src="/brand/harpra-icon-180.png" alt="" width="30" height="30"><span>Harpra Games</span></a>
+        <nav class="site-nav" aria-label="Main"><a href="/getknighted" aria-current="page">Knighted!</a><a href="/knighted/support">Help</a></nav>
     </div>
-    <p class="note js-soon hidden">Coming soon to iPhone. On Android? Tap the button above.</p>
+</header>
+
+<main>
+    <!-- ── Hero ──────────────────────────────────────────────────────── -->
+    <section class="hero">
+        <div class="wrap">
+            <div class="hero-copy fade-up">
+                <img class="wordmark" src="/knighted/knighted-logo.webp" alt="Knighted!" width="420" height="232">
+                <h1>One knight. 64 squares. <span class="gold">No square twice.</span></h1>
+                <p class="lede">The thousand-year-old puzzle, reborn. Plan every jump, visit each square exactly once, and finish the tour.</p>
+                <div class="js-stores">
+                    <div class="btn-row">
+                        <a class="btn btn-primary js-play" data-count="google-play-hero" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get Knighted!</a>
+                        <a class="btn btn-primary js-appstore hidden" data-count="app-store-hero" href="#">Get Knighted!</a>
+                    </div>
+                    <p class="store-note js-play-note">Free on Google Play.</p>
+                </div>
+                <!-- iPhones, until the App Store link exists: the news first, Play
+                     as a small line for an Android owner reading on an iPhone. -->
+                <div class="card soon-panel js-soon hidden" role="status">
+                    <p class="eyebrow">◆ iPhone ◆</p>
+                    <p class="soon-title gold">Coming soon to iPhone</p>
+                    <p>Knighted! is on its way. Take a look around while you wait.</p>
+                    <p class="soon-android">On Android? <a class="js-play" data-count="google-play-soon" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get it on Google Play</a></p>
+                </div>
+            </div>
+            <div class="hero-art">
+                <img class="shot" src="/knighted/shots/shot-daily.webp" alt="A Daily Puzzle in progress: an 8 by 8 board with numbered squares, the knight and its next move" width="480" height="1066">
+            </div>
+        </div>
+    </section>
 
     <!-- ── Screens ───────────────────────────────────────────────────── -->
-    <h2 class="section-label">See it in action</h2>
-    <div class="gallery" aria-label="Screens from the app">
-        <figure><img src="/knighted/shots/shot-home.webp" alt="The Knighted! home screen" width="480" height="1066" loading="lazy"><figcaption>Three ways to play, every day</figcaption></figure>
-        <figure><img src="/knighted/shots/shot-daily.webp" alt="A Daily Puzzle in progress" width="480" height="1066" loading="lazy"><figcaption>The Daily Puzzle</figcaption></figure>
-        <figure><img src="/knighted/shots/shot-classic-forest.webp" alt="A Classic tour in the Forest Hall theme" width="480" height="1066" loading="lazy"><figcaption>Classic tours</figcaption></figure>
-        <figure><img src="/knighted/shots/shot-trivia.webp" alt="Daily Trivia" width="480" height="1066" loading="lazy"><figcaption>Daily Trivia</figcaption></figure>
-        <figure><img src="/knighted/shots/shot-chronicles.webp" alt="Chronicles: stats, streaks and medals" width="480" height="1066" loading="lazy"><figcaption>Streaks, stats and medals</figcaption></figure>
-        <figure><img src="/knighted/shots/shot-themes.webp" alt="The eight themes" width="480" height="1066" loading="lazy"><figcaption>Eight themes</figcaption></figure>
-        <figure><img src="/knighted/shots/shot-premium.webp" alt="Knighted! Premium" width="480" height="1066" loading="lazy"><figcaption>Premium</figcaption></figure>
-    </div>
-    <p class="note gallery-hint">Swipe or scroll for more →</p>
+    <section class="section-tight" id="game" aria-labelledby="h-screens">
+        <div class="wrap">
+            <h2 class="band" id="h-screens"><span>See it in action</span></h2>
+            <div class="gallery">
+                <figure><img class="shot" src="/knighted/shots/shot-classic-forest.webp" alt="A Classic tour in the Forest Hall theme" width="480" height="1066" loading="lazy"><figcaption><strong>The puzzle</strong>Plan each knight's move. Visit every square once.</figcaption></figure>
+                <figure><img class="shot" src="/knighted/shots/shot-daily.webp" alt="The Daily Puzzle at Medium" width="480" height="1066" loading="lazy"><figcaption><strong>Daily Puzzle</strong>A fresh board to return to each day.</figcaption></figure>
+                <figure><img class="shot" src="/knighted/shots/shot-trivia.webp" alt="A Daily Trivia question" width="480" height="1066" loading="lazy"><figcaption><strong>Daily Trivia</strong>A little extra discovery, every day.</figcaption></figure>
+                <figure><img class="shot" src="/knighted/shots/shot-chronicles.webp" alt="Chronicles: stats, streaks and medals" width="480" height="1066" loading="lazy"><figcaption><strong>Chronicles</strong>Your streaks, best times and medals.</figcaption></figure>
+                <figure><img class="shot" src="/knighted/shots/shot-themes.webp" alt="The Themes screen: two free themes and six Premium themes" width="480" height="1066" loading="lazy"><figcaption><strong>Themes</strong>Make the game feel like your own.</figcaption></figure>
+                <figure><img class="shot" src="/knighted/shots/shot-home.webp" alt="The Knighted! home screen" width="480" height="1066" loading="lazy"><figcaption><strong>Every day</strong>Classic, the Daily Puzzle and Daily Trivia.</figcaption></figure>
+            </div>
+            <p class="gallery-hint">Swipe for more →</p>
+        </div>
+    </section>
 
-    <!-- ── Ways to play ──────────────────────────────────────────────── -->
-    <h2 class="section-label">Play your way</h2>
-    <ul class="features">
-        <li><span class="feat-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
-            <strong>Daily Puzzle</strong><span>A new board every day — the same one for every player. Five levels, Easy to Insane.</span></li>
-        <li><span class="feat-ico" aria-hidden="true">♞</span>
-            <strong>Classic tours</strong><span>Free-form and Obstacle modes, on boards from Small (6×6) to Expert (12×12).</span></li>
-        <li><span class="feat-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.2 16.4a6.2 6.2 0 1 1 5.6 0v2.1H9.2z"/><path d="M9.4 21h5.2"/></svg></span>
-            <strong>Daily Trivia</strong><span>Chess and knight lore, a new question every day.</span></li>
-        <li><span class="feat-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7.5" cy="8.5" r="4.5"/><path d="M10.7 11.7l9.8 9.8M16.8 17.8l2.6-2.6"/></svg></span>
-            <strong>Hints that teach</strong><span>Stuck on the Daily? Guide Me shows you why a move fails, not just that it does.</span></li>
-        <li><span class="feat-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3h8v5a4 4 0 0 1-8 0z"/><path d="M8 5H4.5a3 3 0 0 0 3.6 4M16 5h3.5a3 3 0 0 1-3.6 4M12 12v4M8.5 21h7M10 16h4l.6 5H9.4z"/></svg></span>
-            <strong>Chronicles</strong><span>Your streaks, best times and medals, from Squire to Viceroy.</span></li>
-    </ul>
+    <!-- ── How it works ──────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="h-how">
+        <div class="wrap">
+            <h2 class="band" id="h-how"><span>How it works</span></h2>
+            <h3 class="center" style="font-size: clamp(22px, 4vw, 28px); margin-bottom: var(--s5);">A simple rule. A satisfying challenge.</h3>
+            <div class="grid grid-3 steps">
+                <div class="step">
+                    <img src="/knighted/art/board-start.webp" alt="The start of a Classic tour: the knight on square 13, with the squares it can jump to next marked 14" width="360" height="360" loading="lazy">
+                    <h3>Start with a knight</h3>
+                    <p class="muted">It jumps in an L: two squares one way, one to the side. The squares it can reach next are marked.</p>
+                </div>
+                <div class="step">
+                    <img src="/knighted/art/board-daily.webp" alt="A Daily Puzzle board: numbered clue squares show where the tour must pass" width="360" height="360" loading="lazy">
+                    <h3>Plan your route</h3>
+                    <p class="muted">Never land on a square twice. On the Daily Puzzle, numbered clues show where your tour must pass.</p>
+                </div>
+                <div class="step">
+                    <img src="/knighted/art/medal-hard.webp" alt="The Paladin medal" width="200" height="200" loading="lazy" style="max-width: 200px; box-shadow: none; filter: drop-shadow(0 10px 20px rgba(0,0,0,.5));">
+                    <h3>Complete the tour</h3>
+                    <p class="muted">Visit every square exactly once. Solve a Daily Puzzle at a level and its medal is yours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- ── Themes ────────────────────────────────────────────────────── -->
-    <h2 class="section-label">Eight themes</h2>
-    <p class="note section-sub">Two free. Six more with Premium.</p>
-    <ul class="themes">
-        <li><img src="/knighted/shots/board-dark.webp" alt="" width="320" height="320" loading="lazy"><span>Royal Night</span></li>
-        <li><img src="/knighted/shots/board-light.webp" alt="" width="320" height="320" loading="lazy"><span>Imperial Ivory</span></li>
-        <li class="pro"><img src="/knighted/shots/board-forest-hall.webp" alt="" width="320" height="320" loading="lazy"><span>Forest Hall</span></li>
-        <li class="pro"><img src="/knighted/shots/board-crimson-chamber.webp" alt="" width="320" height="320" loading="lazy"><span>Crimson Chamber</span></li>
-        <li class="pro"><img src="/knighted/shots/board-moonlit-steel.webp" alt="" width="320" height="320" loading="lazy"><span>Moonlit Steel</span></li>
-        <li class="pro"><img src="/knighted/shots/board-aubergine-court.webp" alt="" width="320" height="320" loading="lazy"><span>Aubergine Court</span></li>
-        <li class="pro"><img src="/knighted/shots/board-sepia-archive.webp" alt="" width="320" height="320" loading="lazy"><span>Sepia Archive</span></li>
-        <li class="pro"><img src="/knighted/shots/board-teal-voyage.webp" alt="" width="320" height="320" loading="lazy"><span>Teal Voyage</span></li>
-    </ul>
+    <!-- ── Modes ─────────────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="h-modes">
+        <div class="wrap">
+            <h2 class="band" id="h-modes"><span>Choose your challenge</span></h2>
+            <div class="grid grid-2">
+                <div class="card"><img class="card-art" src="/knighted/art/medal-medium.webp" alt="" width="64" height="64" loading="lazy"><h3 class="gold">Daily Puzzle</h3><p>A new board every day — the same one for every player — at five levels from Easy to Insane. It changes at midnight where you are, and every day you solve keeps your streak going.</p></div>
+                <div class="card"><img class="card-art" src="/knighted/art/icon-knight.webp" alt="" width="64" height="64" loading="lazy"><h3 class="gold">Classic</h3><p>Free-form and Obstacle modes, on boards from Small (6×6) to Expert (12×12). Play whenever you like, at your own pace.</p></div>
+                <div class="card"><img class="card-art" src="/knighted/art/icon-bulb.webp" alt="" width="64" height="64" loading="lazy"><h3 class="gold">Daily Trivia</h3><p>A new question about chess and the knight, every day. The answer is in the app.</p></div>
+                <div class="card"><img class="card-art" src="/knighted/art/medal-insane.webp" alt="" width="64" height="64" loading="lazy"><h3 class="gold">Chronicles</h3><p>Your Classic and Daily records in one place: games solved, best and average times, your streak and your medals.</p></div>
+            </div>
+        </div>
+    </section>
 
-    <!-- ── Premium (the Premium screen's own tiles) ──────────────────── -->
-    <h2 class="section-label">Premium</h2>
-    <div class="premium">
-        <p class="premium-lede">One payment. No ads, ever again</p>
-        <p class="premium-sub">◆ Yours forever ◆</p>
-        <ul class="perks">
-            <li><strong>Ad-Free</strong><span>No ads, on any screen</span></li>
-            <li><strong>Unlimited Clues</strong><span>No ad per reveal</span></li>
-            <li><strong>Unlimited Undos</strong><span>No 8-undo limit</span></li>
-            <li><strong>Unlimited Zen</strong><span>No 4-session limit</span></li>
-            <li><strong>Hints &amp; Solutions</strong><span>No ads, no limits</span></li>
-            <li><strong>All Daily Puzzles</strong><span>Every puzzle, from day one</span></li>
-            <li><strong>All Daily Trivia</strong><span>Every trivia, from day one</span></li>
-            <li><strong>All Themes</strong><span>Six more elegant themes</span></li>
-            <li><strong>Offline Access</strong><span>No connection needed</span></li>
-            <li><strong>Bigger Boards</strong><span>Large and Expert boards</span></li>
-            <li><strong>Expert &amp; Insane</strong><span>The two hardest levels</span></li>
-            <li><strong>Future Updates</strong><span>Everything new, included</span></li>
-        </ul>
-        <p class="note">A one-time purchase inside the app. The game is free to play.</p>
-    </div>
+    <!-- ── Medals ────────────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="h-medals">
+        <div class="wrap center">
+            <h2 class="band" id="h-medals"><span>Grow with every challenge</span></h2>
+            <p class="measure muted">Start where you're comfortable and take on harder tours as you improve. Solve the Daily Puzzle at a level to earn its medal.</p>
+            <ul class="medals">
+                <li><img src="/knighted/art/medal-easy.webp" alt="" width="200" height="200" loading="lazy"><strong>Squire</strong><span>Easy</span></li>
+                <li><img src="/knighted/art/medal-medium.webp" alt="" width="200" height="200" loading="lazy"><strong>Cavalier</strong><span>Medium</span></li>
+                <li><img src="/knighted/art/medal-hard.webp" alt="" width="200" height="200" loading="lazy"><strong>Paladin</strong><span>Hard</span></li>
+                <li><img src="/knighted/art/medal-expert.webp" alt="" width="200" height="200" loading="lazy"><strong>Banneret</strong><span>Expert</span><span class="prem">Premium</span></li>
+                <li><img src="/knighted/art/medal-insane.webp" alt="" width="200" height="200" loading="lazy"><strong>Viceroy</strong><span>Insane</span><span class="prem">Premium</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ── Make it your own ──────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="h-own">
+        <div class="wrap">
+            <h2 class="band" id="h-own"><span>Make every move your own</span></h2>
+            <ul class="themes">
+                <li><img src="/knighted/shots/board-dark.webp" alt="" width="320" height="320" loading="lazy"><span>Royal Night</span></li>
+                <li><img src="/knighted/shots/board-light.webp" alt="" width="320" height="320" loading="lazy"><span>Imperial Ivory</span></li>
+                <li class="pro"><img src="/knighted/shots/board-forest-hall.webp" alt="" width="320" height="320" loading="lazy"><span>Forest Hall</span></li>
+                <li class="pro"><img src="/knighted/shots/board-crimson-chamber.webp" alt="" width="320" height="320" loading="lazy"><span>Crimson Chamber</span></li>
+                <li class="pro"><img src="/knighted/shots/board-moonlit-steel.webp" alt="" width="320" height="320" loading="lazy"><span>Moonlit Steel</span></li>
+                <li class="pro"><img src="/knighted/shots/board-aubergine-court.webp" alt="" width="320" height="320" loading="lazy"><span>Aubergine Court</span></li>
+                <li class="pro"><img src="/knighted/shots/board-sepia-archive.webp" alt="" width="320" height="320" loading="lazy"><span>Sepia Archive</span></li>
+                <li class="pro"><img src="/knighted/shots/board-teal-voyage.webp" alt="" width="320" height="320" loading="lazy"><span>Teal Voyage</span></li>
+            </ul>
+            <div class="grid grid-3" style="margin-top: var(--s5);">
+                <div class="card"><h3>Eight themes</h3><p>Two free, six more with Premium, each with its own board, colours and knight.</p></div>
+                <div class="card"><h3>Your board, your way</h3><p>Pick the board size, and add obstacles to make a Classic tour harder.</p></div>
+                <div class="card"><h3>Hints that teach</h3><p>Stuck? Check your path, let Guide me lead the way, or Show me the solution. On the Daily Puzzle, Guide me shows why a move fails.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Premium ───────────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="h-premium">
+        <div class="wrap">
+            <div class="card premium">
+                <h2 class="band" id="h-premium"><span>Knighted! Premium</span></h2>
+                <p class="lede center" style="margin-bottom: 4px;">One payment. No ads, ever again.</p>
+                <p class="center muted small">Yours forever — a one-time purchase in the app, through your phone's store. No subscription.</p>
+                <div class="perk-groups">
+                    <div><h3>More ways to play</h3><ul>
+                        <li><strong>Expert &amp; Insane</strong> — the two hardest levels</li>
+                        <li><strong>All Daily Puzzles</strong> — every puzzle, from day one</li>
+                        <li><strong>All Daily Trivia</strong> — every trivia, from day one</li>
+                        <li><strong>Bigger Boards</strong> — Large and Expert boards</li>
+                    </ul></div>
+                    <div><h3>Fewer interruptions</h3><ul>
+                        <li><strong>Ad-Free</strong> — no ads, on any screen</li>
+                        <li><strong>Unlimited Clues</strong> — no ad per reveal</li>
+                        <li><strong>Unlimited Undos</strong> — no 8-undo limit</li>
+                        <li><strong>Hints &amp; Solutions</strong> — no ads, no limits</li>
+                    </ul></div>
+                    <div><h3>Yours to keep</h3><ul>
+                        <li><strong>All Themes</strong> — six more elegant themes</li>
+                        <li><strong>Unlimited Zen</strong> — no 4-session limit</li>
+                        <li><strong>Offline Access</strong> — no connection needed</li>
+                        <li><strong>Future Updates</strong> — everything new, included</li>
+                    </ul></div>
+                </div>
+                <p class="center muted small" style="margin: 0;">Free to play: the Daily Puzzle from Easy to Hard, Classic on Small and Standard boards, Daily Trivia and two themes.</p>
+            </div>
+        </div>
+    </section>
 
     <!-- ── Again, at the bottom ──────────────────────────────────────── -->
-    <h2 class="section-label">Ready?</h2>
-    <div class="stores">
-        <a class="store-btn js-play" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get it on Google Play</a>
-        <a class="store-btn js-appstore hidden" href="#">Download on the App Store</a>
-    </div>
-    <p class="note js-soon hidden">Coming soon to iPhone.</p>
-    <p class="note"><a href="/knighted/support">Help</a> · <a href="/knighted/privacy">Privacy</a></p>
+    <section class="section center" aria-labelledby="h-ready">
+        <div class="wrap">
+            <h2 id="h-ready">Ready for your next move?</h2>
+            <div class="js-stores">
+                <div class="btn-row" style="justify-content: center;">
+                    <a class="btn btn-primary js-play" data-count="google-play-bottom" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get Knighted!</a>
+                    <a class="btn btn-primary js-appstore hidden" data-count="app-store-bottom" href="#">Get Knighted!</a>
+                </div>
+                <p class="store-note js-play-note">Free on Google Play.</p>
+            </div>
+            <p class="js-soon hidden muted">Coming soon to iPhone. On Android? <a class="js-play" data-count="google-play-soon-bottom" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get it on Google Play</a></p>
+        </div>
+    </section>
 </main>
-<footer class="site"><span>© Harpra Games</span><a href="/">harpragames.com</a></footer>
+
+<footer class="site-footer">
+    <div class="wrap">
+        <span>© 2026 Harpra Games</span>
+        <nav aria-label="Footer"><a href="/getknighted">Knighted!</a><a href="/knighted/support">Help &amp; Support</a><a href="/knighted/privacy">Privacy Policy</a><a href="mailto:support@harpragames.com">support@harpragames.com</a></nav>
+    </div>
+</footer>
+<script src="/analytics.js"></script>
 <script>
 (function () {
     var PLAY = 'https://play.google.com/store/apps/details?id=com.knighted.app';
@@ -126,9 +225,13 @@
     var q = new URLSearchParams(location.search);
     var src = q.get('src') || '', look = q.get('look') || '';
     if (!/^[a-z_]{1,32}$/.test(src)) src = '';
-    if (!src || !/^[a-z0-9_]{1,32}$/.test(look)) look = '';
-    var referrer = src ? 'utm_source=share&utm_medium=' + src : 'utm_source=qr';
-    if (look) referrer += '&utm_content=' + look;
+    if (!src || src === 'qr' || !/^[a-z0-9_]{1,32}$/.test(look)) look = '';
+    var fromSite = /^https?:\/\/(www\.)?harpragames\.com\//.test(document.referrer || '');
+    // Where this visitor came from: a QR scan, a share link, this site, or typed/other.
+    var source = src === 'qr' ? 'qr' : src ? 'share-' + src : fromSite ? 'site' : 'direct';
+    var referrer = src === 'qr' ? 'utm_source=qr'
+                 : src ? 'utm_source=share&utm_medium=' + src + (look ? '&utm_content=' + look : '')
+                 : 'utm_source=' + (fromSite ? 'site' : 'direct');
     var playUrl = PLAY + '&referrer=' + encodeURIComponent(referrer);
 
     var ua = navigator.userAgent || '';
@@ -136,15 +239,27 @@
     // iPadOS reports itself as a Mac; a touch screen gives it away.
     var apple = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
     var all = function (sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); };
+    var count = window.hgCount || function () {};
 
     all('.js-play', function (a) { a.href = playUrl; });
-    if (APP_STORE) all('.js-appstore', function (a) { a.href = APP_STORE; a.classList.remove('hidden'); });
+    if (APP_STORE) {
+        all('.js-appstore', function (a) { a.href = APP_STORE; });
+    }
+    count('arrive/' + source, 'Arrived: ' + source, true);
 
-    if (android) { location.replace(playUrl); return; }
-    if (apple) {
-        if (APP_STORE) { location.replace(APP_STORE); return; }
-        all('.js-soon', function (p) { p.classList.remove('hidden'); });
-        all('.js-play', function (a) { a.classList.add('secondary'); });
+    if (android) {
+        if (!fromSite) { count('redirect/google-play', 'Sent to Google Play', true); location.replace(playUrl); return; }
+    } else if (apple) {
+        if (APP_STORE) {
+            if (!fromSite) { count('redirect/app-store', 'Sent to the App Store', true); location.replace(APP_STORE); return; }
+            all('.js-play', function (a) { if (a.classList.contains('btn')) a.classList.add('hidden'); });
+            all('.js-play-note', function (p) { p.classList.add('hidden'); });
+            all('.js-appstore', function (a) { a.classList.remove('hidden'); });
+        } else {
+            all('.js-stores', function (s) { s.classList.add('hidden'); });
+            all('.js-soon', function (p) { p.classList.remove('hidden'); });
+            count('view/iphone-soon', 'Saw: coming soon to iPhone', true);
+        }
     }
 })();
 </script>
