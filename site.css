@@ -204,8 +204,8 @@ main { flex: 1; }
 .gallery figcaption { margin-top: 12px; font-size: 15px; color: var(--color-text-secondary); text-align: center; }
 .gallery figcaption strong { display: block; color: var(--color-text-cream); font-weight: 600; }
 .gallery-hint { text-align: center; font-size: 14px; color: var(--color-text-secondary); margin: 0; }
-/* Wide screens: all six in one row, no scrolling. */
-@media (min-width: 1100px) { .gallery { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; overflow: visible; margin: 0; padding: 8px 0 20px; } .gallery-hint { display: none; } }
+/* Wide screens: all five in one row, no scrolling. */
+@media (min-width: 1100px) { .gallery { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; overflow: visible; margin: 0; padding: 8px 0 20px; } .gallery-hint { display: none; } }
 
 /* Tap a screenshot to see it larger. */
 .lightbox { padding: 0; border: none; background: transparent; max-width: 94vw; max-height: 94vh; overflow: visible; }
