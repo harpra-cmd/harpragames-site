@@ -182,6 +182,17 @@ main { flex: 1; }
     .featured-copy .btn-row { justify-content: flex-start; }
 }
 
+/* ...and, inside the same box, why it's fun and the invitation: full width
+   under a fine gold rule, the three cards quieter than the box they sit in. */
+.featured-more { grid-column: 1 / -1; border-top: 1px solid rgba(212, 175, 55, 0.22); padding-top: var(--s5); text-align: center; }
+.featured-more .band { margin-bottom: var(--s4); }
+.featured-more .grid { text-align: left; }
+.featured-more .card { background: rgba(255, 255, 255, 0.03); box-shadow: none; border-color: rgba(212, 175, 55, 0.2); }
+.featured-next { margin-top: var(--s5); }
+.featured-card .featured-next .featured-next-q { font: 500 clamp(22px, 3.6vw, 28px)/1.2 var(--font-head); color: var(--color-text-primary); margin: 0 0 var(--s3); }
+.featured-next .btn-row { justify-content: center; }
+.featured { padding-bottom: var(--s6); }
+
 /* A screenshot from the app, in a quiet phone-shaped frame. */
 .shot { display: block; border-radius: 26px; border: 3px solid #26304a; box-shadow: var(--shadow-shot); background: #0b1020; }
 .hero-art .shot { width: min(78vw, 320px); }
