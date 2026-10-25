@@ -53,8 +53,8 @@
                      APP_STORE is set (owner, 2026-10-25). -->
                 <div class="js-stores">
                     <div class="btn-row">
-                        <a class="btn btn-primary js-play" data-count="google-play-hero" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get it on Google Play</a>
-                        <a class="btn btn-secondary js-appstore is-soon" data-count="app-store-hero" aria-disabled="true">App Store · Coming soon</a>
+                        <a class="store-badge js-play" data-count="google-play-hero" href="https://play.google.com/store/apps/details?id=com.knighted.app"><img src="/knighted/google-play-badge.svg" alt="Get it on Google Play" width="190" height="56"></a>
+                        <a class="store-soon js-appstore is-soon" data-count="app-store-hero" aria-disabled="true"><span>App Store</span>Coming soon</a>
                     </div>
                     <p class="store-note">Free to download. No account needed.</p>
                 </div>
@@ -208,8 +208,8 @@
             <h2 id="h-ready">Ready for your next move?</h2>
             <div class="js-stores">
                 <div class="btn-row" style="justify-content: center;">
-                    <a class="btn btn-primary js-play" data-count="google-play-bottom" href="https://play.google.com/store/apps/details?id=com.knighted.app">Get it on Google Play</a>
-                    <a class="btn btn-secondary js-appstore is-soon" data-count="app-store-bottom" aria-disabled="true">App Store · Coming soon</a>
+                    <a class="store-badge js-play" data-count="google-play-bottom" href="https://play.google.com/store/apps/details?id=com.knighted.app"><img src="/knighted/google-play-badge.svg" alt="Get it on Google Play" width="190" height="56"></a>
+                    <a class="store-soon js-appstore is-soon" data-count="app-store-bottom" aria-disabled="true"><span>App Store</span>Coming soon</a>
                 </div>
                 <p class="store-note">Free to download. No account needed.</p>
             </div>
@@ -222,6 +222,7 @@
     <div class="wrap">
         <span>© 2026 Harpra Games</span>
         <nav aria-label="Footer"><a href="/getknighted">Knighted!</a><a href="/knighted/support">Help &amp; Support</a><a href="/knighted/privacy">Privacy Policy</a><a href="mailto:support@harpragames.com">support@harpragames.com</a></nav>
+        <p class="legal">Google Play and the Google Play logo are trademarks of Google LLC.</p>
     </div>
 </footer>
 <script src="/analytics.js"></script>
@@ -253,6 +254,10 @@
     if (APP_STORE) {
         all('.js-appstore', function (a) {
             a.href = APP_STORE; a.classList.remove('is-soon'); a.removeAttribute('aria-disabled');
+            /* AT LAUNCH: replace this text with Apple's official "Download on the
+               App Store" badge (its own badge tool) and add Apple's trademark
+               line to the footer -- Apple allows the badge only once the app is
+               live, which is why it is not here yet. */
             a.textContent = 'Download on the App Store';
         });
     }
