@@ -1,0 +1,5 @@
+# harpragames.com -- every page may be indexed. (site/README.md)
+User-agent: *
+Allow: /
+
+Sitemap: https://harpragames.com/sitemap.xml

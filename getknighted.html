@@ -3,8 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Knighted! — The Knight's Tour Puzzle, Reimagined</title>
-<meta name="description" content="Knighted! — one knight, 64 squares, no square twice. The Daily Puzzle at five levels, Classic tours and Daily Trivia, free on your phone.">
+<title>Knighted! — Knight's Tour Puzzle Game with a Daily Chess Puzzle</title>
+<meta name="description" content="Knighted! is a Knight's Tour puzzle game for your phone: move one chess knight to every square exactly once. A new Daily Puzzle at five levels from Easy to Insane, Classic boards from 6×6 to 12×12, obstacles and Daily Trivia. Free to play.">
+<!-- SEO and link previews (2026-10-26): one canonical address per page; the
+     preview image and text WhatsApp, Facebook, X and others show for a link. -->
+<link rel="canonical" href="https://harpragames.com/getknighted">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Harpra Games">
+<meta property="og:url" content="https://harpragames.com/getknighted">
+<meta property="og:title" content="Knighted! — the Knight's Tour puzzle">
+<meta property="og:description" content="One knight. 64 squares. No square twice. A new Daily Puzzle every day, at five levels. Free on your phone.">
+<meta property="og:image" content="https://harpragames.com/knighted/og-knighted.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Knighted!: one knight, 64 squares, no square twice. A Daily Puzzle on the game's board.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b1020">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://harpragames.com/#org",
+   "name": "Harpra Games",
+   "url": "https://harpragames.com/",
+   "logo": "https://harpragames.com/brand/harpra-logo.png",
+   "email": "support@harpragames.com"
+  },
+  {
+   "@type": [
+    "MobileApplication",
+    "VideoGame"
+   ],
+   "@id": "https://harpragames.com/getknighted#app",
+   "name": "Knighted!",
+   "url": "https://harpragames.com/getknighted",
+   "description": "Knighted! is a Knight's Tour puzzle game for your phone: move one chess knight to every square exactly once. A new Daily Puzzle at five levels from Easy to Insane, Classic boards from 6×6 to 12×12, obstacles and Daily Trivia. Free to play.",
+   "applicationCategory": "GameApplication",
+   "genre": [
+    "Puzzle",
+    "Logic",
+    "Board"
+   ],
+   "gamePlatform": [
+    "Android",
+    "iOS"
+   ],
+   "operatingSystem": "Android, iOS",
+   "image": "https://harpragames.com/knighted/og-knighted.jpg",
+   "screenshot": [
+    "https://harpragames.com/knighted/shots/shot-daily.webp",
+    "https://harpragames.com/knighted/shots/shot-home.webp"
+   ],
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+   },
+   "publisher": {
+    "@id": "https://harpragames.com/#org"
+   },
+   "author": {
+    "@id": "https://harpragames.com/#org"
+   }
+  }
+ ]
+}
+</script>
 <link rel="icon" href="/knighted/favicon.ico" sizes="any">
 <link rel="icon" href="/knighted/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/knighted/apple-touch-icon.png">
@@ -23,9 +89,15 @@
   App Store link exists, see the page.
 
   Share links carry ?src=<context> (daily, classic, invite, trivia, stats,
-  daily_stuck) and &look=<card format>; the card QR carries ?src=qr. Play
-  gets them as the install referrer (utm_source share|qr|direct|site,
-  utm_medium, utm_content); analytics.js counts the arrival.
+  daily_stuck), &look=<card format> and &p=<the sharer's platform, android|ios>;
+  the card QR carries ?src=qr. Play gets them as the install referrer
+  (utm_source share|qr|search|site|direct, utm_medium, utm_content,
+  utm_campaign=from_<p>); analytics.js counts the arrival (Umami).
+
+  SEARCH ENGINES AND THEIR VISITORS ARE NEVER SENT ON (2026-10-26): Google's
+  crawler presents itself as an Android phone, and a page that sends it to
+  Play is never indexed. Crawlers and people arriving from a search read the
+  page; shares, QR scans and typed visits still go straight to a store.
 
   TO LAUNCH ON IPHONE: paste the App Store URL into APP_STORE below.
 
@@ -240,23 +312,34 @@
     var PLAY_LIVE = false;
 
     var q = new URLSearchParams(location.search);
-    var src = q.get('src') || '', look = q.get('look') || '';
+    var src = q.get('src') || '', look = q.get('look') || '', sharer = q.get('p') || '';
     if (!/^[a-z_]{1,32}$/.test(src)) src = '';
     if (!src || src === 'qr' || !/^[a-z0-9_]{1,32}$/.test(look)) look = '';
-    var fromSite = /^https?:\/\/(www\.)?harpragames\.com\//.test(document.referrer || '');
-    // Where this visitor came from: a QR scan, a share link, this site, or typed/other.
-    var source = src === 'qr' ? 'qr' : src ? 'share-' + src : fromSite ? 'site' : 'direct';
-    var referrer = src === 'qr' ? 'utm_source=qr'
-                 : src ? 'utm_source=share&utm_medium=' + src + (look ? '&utm_content=' + look : '')
-                 : 'utm_source=' + (fromSite ? 'site' : 'direct');
-    var playUrl = PLAY + '&referrer=' + encodeURIComponent(referrer);
-
+    if (!src || !/^(android|ios)$/.test(sharer)) sharer = '';
+    var ref = document.referrer || '';
+    var fromSite = /^https?:\/\/(www\.)?harpragames\.com\//.test(ref);
+    var fromSearch = /^https?:\/\/([^\/]+\.)?(google|bing|duckduckgo|yahoo|yandex|baidu|ecosia|brave|startpage)\.[a-z.]+\//i.test(ref);
     var ua = navigator.userAgent || '';
+    var crawler = /bot|crawl|spider|slurp|mediapartners|inspectiontool|lighthouse|headless|preview/i.test(ua);
+    // Where this visitor came from: a QR scan, a share link, a search, this site, or typed/other.
+    var source = src === 'qr' ? 'qr' : src ? 'share-' + src : fromSearch ? 'search' : fromSite ? 'site' : 'direct';
+    var referrer = src === 'qr' ? 'utm_source=qr'
+                 : src ? 'utm_source=share&utm_medium=' + src + (look ? '&utm_content=' + look : '') +
+                         (sharer ? '&utm_campaign=from_' + sharer : '')
+                 : 'utm_source=' + (fromSearch ? 'search' : fromSite ? 'site' : 'direct');
+    var playUrl = PLAY + '&referrer=' + encodeURIComponent(referrer);
+    // Only arrivals from outside go straight on to a store: never a crawler,
+    // a search visitor or someone already browsing this site.
+    var sendOn = !fromSite && !fromSearch && !crawler;
+
     var android = /Android/i.test(ua);
     // iPadOS reports itself as a Mac; a touch screen gives it away.
     var apple = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
     var all = function (sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); };
-    var count = window.hgCount || function () {};
+    var count = window.hgCount || function () { return Promise.resolve(); };
+    var details = { source: source };
+    if (look) details.look = look;
+    if (sharer) details.sharer = sharer;
 
     all('.js-play', function (a) { a.href = playUrl; });
     if (APP_STORE) {
@@ -273,17 +356,18 @@
         all('.js-play-live', function (e) { e.classList.remove('hidden'); });
         all('.js-play-prelaunch', function (e) { e.classList.add('hidden'); });
     }
-    count('arrive/' + source, 'Arrived: ' + source, true);
+    count('arrive: ' + source, details);
 
+    // A redirect waits (a moment at most) for its count to leave.
     if (android) {
-        if (PLAY_LIVE && !fromSite) { count('redirect/google-play', 'Sent to Google Play', true); location.replace(playUrl); return; }
+        if (PLAY_LIVE && sendOn) { count('redirect: google-play', details).then(function () { location.replace(playUrl); }); return; }
     } else if (apple) {
         if (APP_STORE) {
-            if (!fromSite) { count('redirect/app-store', 'Sent to the App Store', true); location.replace(APP_STORE); return; }
+            if (sendOn) { count('redirect: app-store', details).then(function () { location.replace(APP_STORE); }); return; }
         } else {
             all('.js-stores', function (s) { s.classList.add('hidden'); });
             all('.js-soon', function (p) { p.classList.remove('hidden'); });
-            count('view/iphone-soon', 'Saw: coming soon to iPhone', true);
+            count('view: iphone-soon', details);
         }
     }
 })();
