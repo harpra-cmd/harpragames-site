@@ -184,7 +184,7 @@ main { flex: 1; }
 /* The gold half on its own line at every size, never split mid-phrase. */
 .featured-tag .gold, .hero-copy h1 .gold { display: block; }
 .featured-card .store-note { font-size: 14px; margin-top: 10px; }
-.featured-learn { font-size: 15px; color: var(--color-text-secondary); margin: var(--s3) 0 0; }
+.how-learn { text-align: center; font-size: 16px; color: var(--color-text-secondary); margin: var(--s5) 0 0; }
 .featured-copy .btn-row { justify-content: center; margin-top: var(--s4); }
 .featured-art { display: flex; justify-content: center; }
 .featured-art .shot { width: min(66vw, 270px); }
