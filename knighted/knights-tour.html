@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>What Is the Knight's Tour? Rules, History and How to Solve It | Knighted!</title>
-<meta name="description" content="The Knight's Tour is a chess puzzle over a thousand years old: move a knight so it lands on every square of the board exactly once. How the knight moves, open and closed tours, the history from Rudrata to Euler, the maths behind it, and Warnsdorff's rule for solving it.">
+<meta name="description" content="Discover the Knight's Tour: a fascinating chess puzzle where a knight visits every square exactly once. Explore its history, rules, mathematics and solving strategies.">
 <!-- SEO and link previews (2026-10-26): one canonical address per page; the
      preview image and text WhatsApp, Facebook, X and others show for a link. -->
 <link rel="canonical" href="https://harpragames.com/knighted/knights-tour">
@@ -34,6 +34,54 @@
  "publisher": { "@type": "Organization", "@id": "https://harpragames.com/#org", "name": "Harpra Games", "logo": { "@type": "ImageObject", "url": "https://harpragames.com/brand/harpra-logo.png" } }
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Can a knight visit all 64 squares of a standard chessboard exactly once?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. A route that does it is called a knight’s tour, and a standard 8×8 board has trillions of them. Because closed tours exist, a tour can even start on any square you like."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How many possible Knight’s Tours exist on a standard 8×8 chessboard?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It depends on how you count. There are 26,534,728,821,064 closed tours if each direction counts separately, or 13,267,364,410,532 if a tour and its reverse count as one. Add the open tours and there are 19,591,828,170,979,904 in all, counting each direction. In these figures, a tour that is just another one turned or mirrored still counts as a different tour."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is the difference between an open and a closed Knight’s Tour?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "In a closed tour the last square is one knight’s move from the first, so the knight could jump straight back and go round again. In an open tour it cannot. Closed tours are harder to find, and some boards have none at all."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is Warnsdorff’s Rule, and how does it help solve a Knight’s Tour?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Published by H. C. von Warnsdorff in 1823, it says: always jump to the square with the fewest onward moves. That visits the hard-to-reach squares before they can be cut off. It is a rule of thumb, not a guarantee, but on a standard board it finds a complete tour remarkably often."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is the Knight’s Tour difficult to solve?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "By hand, it is harder than it looks. The first moves are easy, then corners and edges get cut off, often without you noticing until many moves later. Warnsdorff’s rule and a little practice make it far more manageable, and a computer can build a tour almost instantly."
+   }
+  }
+ ]
+}
+</script>
 <link rel="icon" href="/knighted/favicon.ico" sizes="any">
 <link rel="icon" href="/knighted/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/knighted/apple-touch-icon.png">
@@ -45,7 +93,11 @@
   on, and the natural way into Knighted!. Sections follow the content brief
   (2026-11-17): introduction, how the knight moves, the challenge, open vs
   closed, history, mathematical connections, solving strategies, interesting
-  facts, play the game, references.
+  facts, play the game, references. Second pass (designer's review,
+  2026-11-17): the description, open vs closed side by side on 6x6, the
+  knight's graph on 5x5, Warnsdorff as a heuristic with a worked example
+  (taken from the hero tour), five FAQs (also as FAQPage data: keep the two
+  in step), the promotion card, and play/pause/step/restart on the hero.
 
   EVERY HISTORICAL OR MATHEMATICAL CLAIM HERE IS SOURCED (list at the foot of
   the page). Rudrata and al-Adli: Jelliss and Wikipedia. Nilakantha, the Turk,
@@ -82,8 +134,14 @@
     <figure class="card tour-figure">
         <div class="kb kb-hero" role="img" aria-label="A knight's tour played out on an 8 by 8 board: the knight starts in the bottom-left corner and visits all 64 squares once, each numbered in the order it was reached."><div class="kb-in" id="tour-hero"></div></div>
         <figcaption>
+            <div class="tour-controls" role="group" aria-label="Tour controls">
+                <button type="button" class="tc-btn" data-act="back" aria-label="Previous move"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19"/></svg></button>
+                <button type="button" class="tc-btn tc-play" data-act="play" aria-label="Play"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5.5" width="3.8" height="13" rx="1"/><rect x="13.7" y="5.5" width="3.8" height="13" rx="1"/></svg></button>
+                <button type="button" class="tc-btn" data-act="fwd" aria-label="Next move"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19"/></svg></button>
+                <button type="button" class="tc-btn" data-act="restart" aria-label="Restart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><polyline points="4 3.5 4 8 8.5 8"/></svg></button>
+                <span class="tc-count">Move <b class="tc-n">1</b> of 64</span>
+            </div>
             <span class="muted">An open tour from the corner: every square landed on once.</span>
-            <button type="button" class="btn btn-secondary tour-replay">Play it again</button>
         </figcaption>
     </figure>
 
@@ -93,11 +151,11 @@
     <p>A knight moves in an L-shape: two squares in one direction, then one square to the side. It is the only chess piece that jumps, so nothing in between can block it. Every jump also changes the colour of the square it stands on, from light to dark or dark to light.</p>
     <figure class="tour-pair">
         <div class="tour-pair-item">
-            <div class="kb kb-small" role="img" aria-label="A knight on d4 can jump to eight squares: f3, e2, c2, b3, b5, c6, e6, f5."><div class="kb-in"><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><svg class="kb-ov" viewBox="0 0 8 8" aria-hidden="true"><polyline class="kb-arrow still" points="3.5,4.14 3.5,2.5 3.98,2.5"/><polygon class="kb-head still" points="4.16,2.5 3.92,2.6 3.92,2.4"/></svg><span class="kb-knight" style="--x:3;--y:4" aria-hidden="true">&#9822;</span></div></div>
+            <div class="kb kb-small" role="img" aria-label="A knight on d4 can jump to eight squares: f3, e2, c2, b3, b5, c6, e6, f5."><div class="kb-in" style="--n:8"><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><svg class="kb-ov" viewBox="0 0 8 8" aria-hidden="true"><polyline class="kb-arrow still" points="3.5,4.14 3.5,2.5 3.98,2.5"/><polygon class="kb-head still" points="4.16,2.5 3.92,2.6 3.92,2.4"/></svg><span class="kb-knight" style="--x:3;--y:4" aria-hidden="true">&#9822;</span></div></div>
             <p class="tour-cap"><b>From the middle:</b> 8 squares to jump to</p>
         </div>
         <div class="tour-pair-item">
-            <div class="kb kb-small" role="img" aria-label="A knight in the corner on a1 has only two squares to jump to: b3 and c2."><div class="kb-in"><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><svg class="kb-ov" viewBox="0 0 8 8" aria-hidden="true"><polyline class="kb-arrow still" points="0.5,7.14 0.5,5.5 0.98,5.5"/><polygon class="kb-head still" points="1.16,5.5 0.92,5.6 0.92,5.4"/><polyline class="kb-arrow still" points="0.86,7.5 2.5,7.5 2.5,7.02"/><polygon class="kb-head still" points="2.5,6.84 2.6,7.08 2.4,7.08"/></svg><span class="kb-knight" style="--x:0;--y:7" aria-hidden="true">&#9822;</span></div></div>
+            <div class="kb kb-small" role="img" aria-label="A knight in the corner on a1 has only two squares to jump to: b3 and c2."><div class="kb-in" style="--n:8"><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><svg class="kb-ov" viewBox="0 0 8 8" aria-hidden="true"><polyline class="kb-arrow still" points="0.5,7.14 0.5,5.5 0.98,5.5"/><polygon class="kb-head still" points="1.16,5.5 0.92,5.6 0.92,5.4"/><polyline class="kb-arrow still" points="0.86,7.5 2.5,7.5 2.5,7.02"/><polygon class="kb-head still" points="2.5,6.84 2.6,7.08 2.4,7.08"/></svg><span class="kb-knight" style="--x:0;--y:7" aria-hidden="true">&#9822;</span></div></div>
             <p class="tour-cap"><b>From a corner:</b> only 2</p>
         </div>
     </figure>
@@ -109,10 +167,21 @@
     <p>There is no shortage of answers. Mathematicians have counted more than 13 trillion different closed tours on a standard board alone, and far more open ones. The difficulty is that there are vastly more ways to go wrong.</p>
 
     <h2 id="open-closed">Open vs closed tours</h2>
-    <p>If the knight's last square is one knight's move from where it started, so it could jump straight back and go round again, the tour is called <strong>closed</strong>. Otherwise it is <strong>open</strong>. The tour at the top of this page is open: it ends on g6, far from its start in the corner.</p>
+    <p>If the knight's last square is one knight's move from where it started, so it could jump straight back and go round again, the tour is called <strong>closed</strong>. Otherwise it is <strong>open</strong>. Here are one of each on a small 6×6 board, with the first and last squares ringed in gold:</p>
+    <figure class="tour-pair">
+        <div class="tour-pair-item">
+            <div class="kb kb-small" role="img" aria-label="An open tour of a 6 by 6 board, from a1 to e6. Row by row from the top: rank 6: 32 19 4 17 36 25; rank 5: 3 16 33 26 5 14; rank 4: 20 31 18 15 24 35; rank 3: 9 2 27 34 13 6; rank 2: 30 21 8 11 28 23; rank 1: 1 10 29 22 7 12."><div class="kb-in" style="--n:6"><span class="kb-sq l played">32</span><span class="kb-sq d played">19</span><span class="kb-sq l played">4</span><span class="kb-sq d played">17</span><span class="kb-sq l played end">36</span><span class="kb-sq d played">25</span><span class="kb-sq d played">3</span><span class="kb-sq l played">16</span><span class="kb-sq d played">33</span><span class="kb-sq l played">26</span><span class="kb-sq d played">5</span><span class="kb-sq l played">14</span><span class="kb-sq l played">20</span><span class="kb-sq d played">31</span><span class="kb-sq l played">18</span><span class="kb-sq d played">15</span><span class="kb-sq l played">24</span><span class="kb-sq d played">35</span><span class="kb-sq d played">9</span><span class="kb-sq l played">2</span><span class="kb-sq d played">27</span><span class="kb-sq l played">34</span><span class="kb-sq d played">13</span><span class="kb-sq l played">6</span><span class="kb-sq l played">30</span><span class="kb-sq d played">21</span><span class="kb-sq l played">8</span><span class="kb-sq d played">11</span><span class="kb-sq l played">28</span><span class="kb-sq d played">23</span><span class="kb-sq d played end">1</span><span class="kb-sq l played">10</span><span class="kb-sq d played">29</span><span class="kb-sq l played">22</span><span class="kb-sq d played">7</span><span class="kb-sq l played">12</span></div></div>
+            <p class="tour-cap"><b>Open:</b> 36 ends on e6, far from 1</p>
+        </div>
+        <div class="tour-pair-item">
+            <div class="kb kb-small" role="img" aria-label="A closed tour of a 6 by 6 board, from a1 to c2, one knight's move from a1. Row by row from the top: rank 6: 26 13 4 19 24 21; rank 5: 3 34 25 22 5 18; rank 4: 12 27 14 35 20 23; rank 3: 33 2 31 8 17 6; rank 2: 28 11 36 15 30 9; rank 1: 1 32 29 10 7 16."><div class="kb-in" style="--n:6"><span class="kb-sq l played">26</span><span class="kb-sq d played">13</span><span class="kb-sq l played">4</span><span class="kb-sq d played">19</span><span class="kb-sq l played">24</span><span class="kb-sq d played">21</span><span class="kb-sq d played">3</span><span class="kb-sq l played">34</span><span class="kb-sq d played">25</span><span class="kb-sq l played">22</span><span class="kb-sq d played">5</span><span class="kb-sq l played">18</span><span class="kb-sq l played">12</span><span class="kb-sq d played">27</span><span class="kb-sq l played">14</span><span class="kb-sq d played">35</span><span class="kb-sq l played">20</span><span class="kb-sq d played">23</span><span class="kb-sq d played">33</span><span class="kb-sq l played">2</span><span class="kb-sq d played">31</span><span class="kb-sq l played">8</span><span class="kb-sq d played">17</span><span class="kb-sq l played">6</span><span class="kb-sq l played">28</span><span class="kb-sq d played">11</span><span class="kb-sq l played end">36</span><span class="kb-sq d played">15</span><span class="kb-sq l played">30</span><span class="kb-sq d played">9</span><span class="kb-sq d played end">1</span><span class="kb-sq l played">32</span><span class="kb-sq d played">29</span><span class="kb-sq l played">10</span><span class="kb-sq d played">7</span><span class="kb-sq l played">16</span></div></div>
+            <p class="tour-cap"><b>Closed:</b> 36 is one jump from 1</p>
+        </div>
+    </figure>
+    <p>The tour at the top of this page is open too: it ends on g6, far from its start in the corner. Here is a closed tour of the full board.</p>
     <figure class="tour-figure tour-figure-plain">
-        <div class="kb" role="img" aria-label="A complete closed knight’s tour of an 8 by 8 board, starting on a1. Row by row from the top: rank 8: 36 19 22 5 38 9 24 7; rank 7: 21 4 37 42 23 6 39 10; rank 6: 18 35 20 51 46 41 8 25; rank 5: 3 52 45 48 43 54 11 40; rank 4: 34 17 62 53 50 47 26 55; rank 3: 61 2 49 44 63 58 29 12; rank 2: 16 33 64 59 14 31 56 27; rank 1: 1 60 15 32 57 28 13 30. Square 64 is a knight’s move from square 1."><div class="kb-in"><span class="kb-sq l played">36</span><span class="kb-sq d played">19</span><span class="kb-sq l played">22</span><span class="kb-sq d played">5</span><span class="kb-sq l played">38</span><span class="kb-sq d played">9</span><span class="kb-sq l played">24</span><span class="kb-sq d played">7</span><span class="kb-sq d played">21</span><span class="kb-sq l played">4</span><span class="kb-sq d played">37</span><span class="kb-sq l played">42</span><span class="kb-sq d played">23</span><span class="kb-sq l played">6</span><span class="kb-sq d played">39</span><span class="kb-sq l played">10</span><span class="kb-sq l played">18</span><span class="kb-sq d played">35</span><span class="kb-sq l played">20</span><span class="kb-sq d played">51</span><span class="kb-sq l played">46</span><span class="kb-sq d played">41</span><span class="kb-sq l played">8</span><span class="kb-sq d played">25</span><span class="kb-sq d played">3</span><span class="kb-sq l played">52</span><span class="kb-sq d played">45</span><span class="kb-sq l played">48</span><span class="kb-sq d played">43</span><span class="kb-sq l played">54</span><span class="kb-sq d played">11</span><span class="kb-sq l played">40</span><span class="kb-sq l played">34</span><span class="kb-sq d played">17</span><span class="kb-sq l played">62</span><span class="kb-sq d played">53</span><span class="kb-sq l played">50</span><span class="kb-sq d played">47</span><span class="kb-sq l played">26</span><span class="kb-sq d played">55</span><span class="kb-sq d played">61</span><span class="kb-sq l played">2</span><span class="kb-sq d played">49</span><span class="kb-sq l played">44</span><span class="kb-sq d played">63</span><span class="kb-sq l played">58</span><span class="kb-sq d played">29</span><span class="kb-sq l played">12</span><span class="kb-sq l played">16</span><span class="kb-sq d played">33</span><span class="kb-sq l played last">64</span><span class="kb-sq d played">59</span><span class="kb-sq l played">14</span><span class="kb-sq d played">31</span><span class="kb-sq l played">56</span><span class="kb-sq d played">27</span><span class="kb-sq d played first">1</span><span class="kb-sq l played">60</span><span class="kb-sq d played">15</span><span class="kb-sq l played">32</span><span class="kb-sq d played">57</span><span class="kb-sq l played">28</span><span class="kb-sq d played">13</span><span class="kb-sq l played">30</span></div></div>
-        <figcaption class="muted">A sample closed tour. Follow the numbers from 1 to 64: square 64 (ringed in gold, like square 1) is one knight's move from square 1, so the knight can jump home and start again.</figcaption>
+        <div class="kb" role="img" aria-label="A complete closed knight’s tour of an 8 by 8 board, starting on a1. Row by row from the top: rank 8: 36 19 22 5 38 9 24 7; rank 7: 21 4 37 42 23 6 39 10; rank 6: 18 35 20 51 46 41 8 25; rank 5: 3 52 45 48 43 54 11 40; rank 4: 34 17 62 53 50 47 26 55; rank 3: 61 2 49 44 63 58 29 12; rank 2: 16 33 64 59 14 31 56 27; rank 1: 1 60 15 32 57 28 13 30. Square 64 is a knight’s move from square 1."><div class="kb-in" style="--n:8"><span class="kb-sq l played">36</span><span class="kb-sq d played">19</span><span class="kb-sq l played">22</span><span class="kb-sq d played">5</span><span class="kb-sq l played">38</span><span class="kb-sq d played">9</span><span class="kb-sq l played">24</span><span class="kb-sq d played">7</span><span class="kb-sq d played">21</span><span class="kb-sq l played">4</span><span class="kb-sq d played">37</span><span class="kb-sq l played">42</span><span class="kb-sq d played">23</span><span class="kb-sq l played">6</span><span class="kb-sq d played">39</span><span class="kb-sq l played">10</span><span class="kb-sq l played">18</span><span class="kb-sq d played">35</span><span class="kb-sq l played">20</span><span class="kb-sq d played">51</span><span class="kb-sq l played">46</span><span class="kb-sq d played">41</span><span class="kb-sq l played">8</span><span class="kb-sq d played">25</span><span class="kb-sq d played">3</span><span class="kb-sq l played">52</span><span class="kb-sq d played">45</span><span class="kb-sq l played">48</span><span class="kb-sq d played">43</span><span class="kb-sq l played">54</span><span class="kb-sq d played">11</span><span class="kb-sq l played">40</span><span class="kb-sq l played">34</span><span class="kb-sq d played">17</span><span class="kb-sq l played">62</span><span class="kb-sq d played">53</span><span class="kb-sq l played">50</span><span class="kb-sq d played">47</span><span class="kb-sq l played">26</span><span class="kb-sq d played">55</span><span class="kb-sq d played">61</span><span class="kb-sq l played">2</span><span class="kb-sq d played">49</span><span class="kb-sq l played">44</span><span class="kb-sq d played">63</span><span class="kb-sq l played">58</span><span class="kb-sq d played">29</span><span class="kb-sq l played">12</span><span class="kb-sq l played">16</span><span class="kb-sq d played">33</span><span class="kb-sq l played end">64</span><span class="kb-sq d played">59</span><span class="kb-sq l played">14</span><span class="kb-sq d played">31</span><span class="kb-sq l played">56</span><span class="kb-sq d played">27</span><span class="kb-sq d played end">1</span><span class="kb-sq l played">60</span><span class="kb-sq d played">15</span><span class="kb-sq l played">32</span><span class="kb-sq d played">57</span><span class="kb-sq l played">28</span><span class="kb-sq d played">13</span><span class="kb-sq l played">30</span></div></div>
+        <figcaption class="muted">A sample closed tour. Follow the numbers from 1 to 64: square 64 is one knight's move from square 1, so the knight can jump home and start again.</figcaption>
     </figure>
     <p>A closed tour is a loop, so you can start it from any of its 64 squares. Closed tours are harder to find, and some boards have none at all. A 5×5 board has open tours but no closed one, and no board with an odd number of squares can be closed: the knight changes colour on every jump, so a loop needs as many light squares as dark ones.</p>
 
@@ -129,14 +198,31 @@
     </ul>
 
     <h2 id="maths">Mathematical connections</h2>
-    <p>Draw a dot for each of the 64 squares, and a line between any two squares a knight's move apart. Mathematicians call this the <strong>knight's graph</strong>. On an 8×8 board it has 64 dots and 168 lines.</p>
+    <p>Draw a dot for each of the 64 squares, and a line between any two squares a knight's move apart. Mathematicians call this the <strong>knight's graph</strong>. On an 8×8 board it has 64 dots and 168 lines, too many to draw clearly, so here is the graph of a 5×5 board.</p>
+    <figure class="tour-figure tour-figure-plain">
+        <svg class="kg" viewBox="0 0 5 5" role="img" aria-label="The knight's graph of a 5 by 5 board: 25 dots, one per square, and 48 lines, one for every pair of squares a knight's move apart. Each dot shows how many lines meet it: 2 at the corners, 8 in the centre."><g class="kg-sq"><rect x="0" y="0" width="1" height="1" class="l"/><rect x="1" y="0" width="1" height="1" class="d"/><rect x="2" y="0" width="1" height="1" class="l"/><rect x="3" y="0" width="1" height="1" class="d"/><rect x="4" y="0" width="1" height="1" class="l"/><rect x="0" y="1" width="1" height="1" class="d"/><rect x="1" y="1" width="1" height="1" class="l"/><rect x="2" y="1" width="1" height="1" class="d"/><rect x="3" y="1" width="1" height="1" class="l"/><rect x="4" y="1" width="1" height="1" class="d"/><rect x="0" y="2" width="1" height="1" class="l"/><rect x="1" y="2" width="1" height="1" class="d"/><rect x="2" y="2" width="1" height="1" class="l"/><rect x="3" y="2" width="1" height="1" class="d"/><rect x="4" y="2" width="1" height="1" class="l"/><rect x="0" y="3" width="1" height="1" class="d"/><rect x="1" y="3" width="1" height="1" class="l"/><rect x="2" y="3" width="1" height="1" class="d"/><rect x="3" y="3" width="1" height="1" class="l"/><rect x="4" y="3" width="1" height="1" class="d"/><rect x="0" y="4" width="1" height="1" class="l"/><rect x="1" y="4" width="1" height="1" class="d"/><rect x="2" y="4" width="1" height="1" class="l"/><rect x="3" y="4" width="1" height="1" class="d"/><rect x="4" y="4" width="1" height="1" class="l"/></g><g class="kg-edges"><line x1="0.5" y1="0.5" x2="2.5" y2="1.5"/><line x1="0.5" y1="0.5" x2="1.5" y2="2.5"/><line x1="1.5" y1="0.5" x2="3.5" y2="1.5"/><line x1="1.5" y1="0.5" x2="2.5" y2="2.5"/><line x1="1.5" y1="0.5" x2="0.5" y2="2.5"/><line x1="2.5" y1="0.5" x2="4.5" y2="1.5"/><line x1="2.5" y1="0.5" x2="3.5" y2="2.5"/><line x1="2.5" y1="0.5" x2="1.5" y2="2.5"/><line x1="2.5" y1="0.5" x2="0.5" y2="1.5"/><line x1="3.5" y1="0.5" x2="4.5" y2="2.5"/><line x1="3.5" y1="0.5" x2="2.5" y2="2.5"/><line x1="3.5" y1="0.5" x2="1.5" y2="1.5"/><line x1="4.5" y1="0.5" x2="3.5" y2="2.5"/><line x1="4.5" y1="0.5" x2="2.5" y2="1.5"/><line x1="0.5" y1="1.5" x2="2.5" y2="2.5"/><line x1="0.5" y1="1.5" x2="1.5" y2="3.5"/><line x1="1.5" y1="1.5" x2="3.5" y2="2.5"/><line x1="1.5" y1="1.5" x2="2.5" y2="3.5"/><line x1="1.5" y1="1.5" x2="0.5" y2="3.5"/><line x1="2.5" y1="1.5" x2="4.5" y2="2.5"/><line x1="2.5" y1="1.5" x2="3.5" y2="3.5"/><line x1="2.5" y1="1.5" x2="1.5" y2="3.5"/><line x1="2.5" y1="1.5" x2="0.5" y2="2.5"/><line x1="3.5" y1="1.5" x2="4.5" y2="3.5"/><line x1="3.5" y1="1.5" x2="2.5" y2="3.5"/><line x1="3.5" y1="1.5" x2="1.5" y2="2.5"/><line x1="4.5" y1="1.5" x2="3.5" y2="3.5"/><line x1="4.5" y1="1.5" x2="2.5" y2="2.5"/><line x1="0.5" y1="2.5" x2="2.5" y2="3.5"/><line x1="0.5" y1="2.5" x2="1.5" y2="4.5"/><line x1="1.5" y1="2.5" x2="3.5" y2="3.5"/><line x1="1.5" y1="2.5" x2="2.5" y2="4.5"/><line x1="1.5" y1="2.5" x2="0.5" y2="4.5"/><line x1="2.5" y1="2.5" x2="4.5" y2="3.5"/><line x1="2.5" y1="2.5" x2="3.5" y2="4.5"/><line x1="2.5" y1="2.5" x2="1.5" y2="4.5"/><line x1="2.5" y1="2.5" x2="0.5" y2="3.5"/><line x1="3.5" y1="2.5" x2="4.5" y2="4.5"/><line x1="3.5" y1="2.5" x2="2.5" y2="4.5"/><line x1="3.5" y1="2.5" x2="1.5" y2="3.5"/><line x1="4.5" y1="2.5" x2="3.5" y2="4.5"/><line x1="4.5" y1="2.5" x2="2.5" y2="3.5"/><line x1="0.5" y1="3.5" x2="2.5" y2="4.5"/><line x1="1.5" y1="3.5" x2="3.5" y2="4.5"/><line x1="2.5" y1="3.5" x2="4.5" y2="4.5"/><line x1="2.5" y1="3.5" x2="0.5" y2="4.5"/><line x1="3.5" y1="3.5" x2="1.5" y2="4.5"/><line x1="4.5" y1="3.5" x2="2.5" y2="4.5"/></g><g class="kg-dot kg-2"><circle cx="0.5" cy="0.5" r=".2"/><text x="0.5" y="0.5">2</text></g><g class="kg-dot kg-3"><circle cx="1.5" cy="0.5" r=".2"/><text x="1.5" y="0.5">3</text></g><g class="kg-dot kg-4"><circle cx="2.5" cy="0.5" r=".2"/><text x="2.5" y="0.5">4</text></g><g class="kg-dot kg-3"><circle cx="3.5" cy="0.5" r=".2"/><text x="3.5" y="0.5">3</text></g><g class="kg-dot kg-2"><circle cx="4.5" cy="0.5" r=".2"/><text x="4.5" y="0.5">2</text></g><g class="kg-dot kg-3"><circle cx="0.5" cy="1.5" r=".2"/><text x="0.5" y="1.5">3</text></g><g class="kg-dot kg-4"><circle cx="1.5" cy="1.5" r=".2"/><text x="1.5" y="1.5">4</text></g><g class="kg-dot kg-6"><circle cx="2.5" cy="1.5" r=".2"/><text x="2.5" y="1.5">6</text></g><g class="kg-dot kg-4"><circle cx="3.5" cy="1.5" r=".2"/><text x="3.5" y="1.5">4</text></g><g class="kg-dot kg-3"><circle cx="4.5" cy="1.5" r=".2"/><text x="4.5" y="1.5">3</text></g><g class="kg-dot kg-4"><circle cx="0.5" cy="2.5" r=".2"/><text x="0.5" y="2.5">4</text></g><g class="kg-dot kg-6"><circle cx="1.5" cy="2.5" r=".2"/><text x="1.5" y="2.5">6</text></g><g class="kg-dot kg-8"><circle cx="2.5" cy="2.5" r=".2"/><text x="2.5" y="2.5">8</text></g><g class="kg-dot kg-6"><circle cx="3.5" cy="2.5" r=".2"/><text x="3.5" y="2.5">6</text></g><g class="kg-dot kg-4"><circle cx="4.5" cy="2.5" r=".2"/><text x="4.5" y="2.5">4</text></g><g class="kg-dot kg-3"><circle cx="0.5" cy="3.5" r=".2"/><text x="0.5" y="3.5">3</text></g><g class="kg-dot kg-4"><circle cx="1.5" cy="3.5" r=".2"/><text x="1.5" y="3.5">4</text></g><g class="kg-dot kg-6"><circle cx="2.5" cy="3.5" r=".2"/><text x="2.5" y="3.5">6</text></g><g class="kg-dot kg-4"><circle cx="3.5" cy="3.5" r=".2"/><text x="3.5" y="3.5">4</text></g><g class="kg-dot kg-3"><circle cx="4.5" cy="3.5" r=".2"/><text x="4.5" y="3.5">3</text></g><g class="kg-dot kg-2"><circle cx="0.5" cy="4.5" r=".2"/><text x="0.5" y="4.5">2</text></g><g class="kg-dot kg-3"><circle cx="1.5" cy="4.5" r=".2"/><text x="1.5" y="4.5">3</text></g><g class="kg-dot kg-4"><circle cx="2.5" cy="4.5" r=".2"/><text x="2.5" y="4.5">4</text></g><g class="kg-dot kg-3"><circle cx="3.5" cy="4.5" r=".2"/><text x="3.5" y="4.5">3</text></g><g class="kg-dot kg-2"><circle cx="4.5" cy="4.5" r=".2"/><text x="4.5" y="4.5">2</text></g></svg>
+        <figcaption class="muted">The knight's graph of a 5×5 board: 25 dots and 48 lines. Each number shows how many lines meet at that square: just 2 at a corner, 8 in the centre.</figcaption>
+    </figure>
     <p>A knight's tour is then a <strong>Hamiltonian path</strong> on that graph: a route along the lines that visits every dot exactly once. A closed tour is a <strong>Hamiltonian cycle</strong>, a path whose two ends are joined. Finding Hamiltonian paths in a general network is one of the famously hard problems of computer science, with no fast method known.</p>
     <p>The knight's graph is a happy exception. It has so much regular structure that tours can be built very quickly, in time that grows only in step with the number of squares, by splitting a big board into small pieces, touring each piece and stitching the pieces together (Conrad and colleagues, 1994; Parberry, 1997).</p>
 
     <h2 id="solving">Solving strategies</h2>
     <h3>Warnsdorff's rule</h3>
     <p class="callout">Always jump to the square that has the <strong>fewest</strong> onward moves left.</p>
-    <p>Visit the hard-to-reach squares first, while you still can, and leave the well-connected middle for later. It is not foolproof: when two squares tie, the rule does not say which to choose, and a poor choice can still run into a dead end, so mathematicians have proposed several ways to break ties. On a standard board it finds a complete tour remarkably often. Both tours on this page were found this way.</p>
+    <p>The idea is to visit the hard-to-reach squares first, while you still can, and leave the well-connected middle for later. Warnsdorff's rule is a <strong>heuristic</strong>: a rule of thumb that usually works, not a guaranteed solution.</p>
+    <div class="tour-worked">
+        <figure class="tour-worked-board">
+            <div class="kb kb-mid" role="img" aria-label="Warnsdorff's rule, step by step: the knight on c1 can reach a2 (2 onward moves), d3 (7 onward moves), e2 (5 onward moves). It jumps to a2, the square with the fewest."><div class="kb-in" style="--n:8"><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l played"></span><span class="kb-sq d"></span><span class="kb-sq l cand">7</span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l cand pick">2</span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l cand">5</span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d played"></span><span class="kb-sq l"></span><span class="kb-sq d played current"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><svg class="kb-ov" viewBox="0 0 8 8" aria-hidden="true"><polyline class="kb-arrow still" points="2.14,7.5 0.5,7.5 0.5,7.02"/><polygon class="kb-head still" points="0.5,6.84 0.6,7.08 0.4,7.08"/></svg><span class="kb-knight" style="--x:2;--y:7" aria-hidden="true">&#9822;</span></div></div>
+            <figcaption class="tour-cap">Indigo: already visited. Green: each square’s onward moves</figcaption>
+        </figure>
+        <ol class="tour-steps">
+            <li><b>List the moves.</b> Three moves in, the knight is on c1. It can jump to a2, d3 or e2.</li>
+            <li><b>Count onward moves.</b> For each one, count the unvisited squares the knight could jump to from there: <b>a2</b> has 2, <b>d3</b> has 7 and <b>e2</b> has 5.</li>
+            <li><b>Pick the fewest.</b> Jump to a2. With only 2 ways out, it is the square most at risk of being cut off, so visit it now.</li>
+            <li><b>Repeat.</b> Do the same from each new square until the board is full.</li>
+        </ol>
+    </div>
+    <p><b>Why it can still fail:</b> when two squares tie, the rule does not say which to choose, and a poor choice can run into a dead end, so mathematicians have proposed several ways to break ties. Even so, on a standard board it finds a complete tour remarkably often. Every tour on this page was found with its help.</p>
     <h3>Backtracking</h3>
     <p>Try a move. If it leads to a dead end, step back and try another. A computer can do this systematically, but a full board has far too many dead ends to try them all one by one, so backtracking works best combined with a good rule like Warnsdorff's to choose which move to try first.</p>
     <h3>Divide and conquer, and neural networks</h3>
@@ -160,15 +246,25 @@
         <li><b>Beyond the chessboard.</b> Mathematicians study tours on boards of every size and shape, even on a torus, a board whose edges wrap around to meet each other.</li>
     </ul>
 
+    <section class="faq tour-faq" aria-labelledby="h-faq">
+        <h2 id="h-faq">Frequently asked questions</h2>
+        <details><summary>Can a knight visit all 64 squares of a standard chessboard exactly once?</summary><div class="answer"><p>Yes. A route that does it is called a knight’s tour, and a standard 8×8 board has trillions of them. Because closed tours exist, a tour can even start on any square you like. <a href="#the-challenge">More</a></p></div></details>
+        <details><summary>How many possible Knight’s Tours exist on a standard 8×8 chessboard?</summary><div class="answer"><p>It depends on how you count. There are 26,534,728,821,064 closed tours if each direction counts separately, or 13,267,364,410,532 if a tour and its reverse count as one. Add the open tours and there are 19,591,828,170,979,904 in all, counting each direction. In these figures, a tour that is just another one turned or mirrored still counts as a different tour. <a href="#facts">More</a></p></div></details>
+        <details><summary>What is the difference between an open and a closed Knight’s Tour?</summary><div class="answer"><p>In a closed tour the last square is one knight’s move from the first, so the knight could jump straight back and go round again. In an open tour it cannot. Closed tours are harder to find, and some boards have none at all. <a href="#open-closed">More</a></p></div></details>
+        <details><summary>What is Warnsdorff’s Rule, and how does it help solve a Knight’s Tour?</summary><div class="answer"><p>Published by H. C. von Warnsdorff in 1823, it says: always jump to the square with the fewest onward moves. That visits the hard-to-reach squares before they can be cut off. It is a rule of thumb, not a guarantee, but on a standard board it finds a complete tour remarkably often. <a href="#solving">More</a></p></div></details>
+        <details><summary>Is the Knight’s Tour difficult to solve?</summary><div class="answer"><p>By hand, it is harder than it looks. The first moves are easy, then corners and edges get cut off, often without you noticing until many moves later. Warnsdorff’s rule and a little practice make it far more manageable, and a computer can build a tour almost instantly. <a href="#the-challenge">More</a></p></div></details>
+    </section>
+
     <section class="card tour-cta" aria-labelledby="h-try">
-        <h2 class="band" id="h-try"><span>Play the game</span></h2>
+        <h2 id="h-try">Ready to take on the Knight's Tour?</h2>
         <img src="/knighted/knighted-logo.webp" alt="Knighted!" width="260" height="144">
-        <p><strong>Knighted!</strong> turns the knight's tour into a game for your phone. A new <strong>Daily Puzzle</strong> every day, at five levels from Easy to Insane, with numbered checkpoint clues your tour must pass through. Or play <strong>Classic</strong> tours on boards from 6×6 to 12×12, with or without obstacles. Stuck? <strong>Guide me</strong> shows you the next move with the same green arrow you see on this page.</p>
+        <p><strong>Knighted!</strong> puts the knight's tour in your pocket. Take on a new <strong>Daily Puzzle</strong> every day, at five levels from Easy to Insane, with numbered clues your tour must pass through. Play <strong>Classic</strong> tours on boards from 6×6 to 12×12, with or without obstacles. And when you're stuck, <strong>Guide me</strong> shows the next move with the same green arrow you see on this page.</p>
         <div class="btn-row">
             <span class="store-soon is-soon js-play-prelaunch" aria-disabled="true"><span>Google Play</span>Coming soon to</span>
             <a class="store-badge js-play-live hidden" data-count="tour-google-play" href="https://play.google.com/store/apps/details?id=com.knighted.app&amp;referrer=utm_source%3Dsite"><img src="/knighted/google-play-badge.svg" alt="Get it on Google Play" width="190" height="56"></a>
             <a class="store-soon js-appstore is-soon" data-count="tour-app-store" aria-disabled="true"><span>App Store</span>Coming soon to</a>
         </div>
+        <p class="store-note">Free to play. No account needed.</p>
         <div class="btn-row"><a class="btn btn-primary" data-count="tour-explore-knighted" href="/getknighted">Explore Knighted!</a></div>
     </section>
 
@@ -264,26 +360,59 @@
         if (n === 64) { cells[TOUR[63]].classList.add('last'); cells[TOUR[63]].textContent = 64; knight.classList.add('gone'); }
         else { cells[TOUR[n - 1]].classList.add('current'); knight.classList.remove('gone'); }
     }
-    var timers = [];
-    function stop() { timers.forEach(clearTimeout); timers = []; clearArrow(); }
-    function play() {
-        stop();
-        var n = 1; paint(1); place(TOUR[0], true);
-        function next() {
-            if (n >= 64) return;
-            arrow(TOUR[n - 1], TOUR[n]);
-            timers.push(setTimeout(function () {
-                n++; place(TOUR[n - 1]);
-                timers.push(setTimeout(function () { clearArrow(); paint(n); if (n < 64) next(); }, STEP - ARROW_LEAD));
-            }, ARROW_LEAD));
-        }
-        timers.push(setTimeout(next, 600));
+    // The player. n = squares reached, the knight standing on the nth.
+    // A move: the arrow first, the jump ARROW_LEAD later, the tile and its
+    // number once he lands. Pausing lets a move in flight land, so the board
+    // never stops halfway through a jump.
+    var n = 1, playing = false, inflight = 0, timers = [];
+    var btnPlay = document.querySelector('.tc-play');
+    var count = document.querySelector('.tc-n');
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function show(k) {
+        n = k; clearArrow(); paint(n); place(TOUR[n - 1], true);
+        if (count) count.textContent = n;
     }
+    function setPlaying(on) {
+        playing = on;
+        if (btnPlay) { btnPlay.classList.toggle('is-playing', on); btnPlay.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+    }
+    function halt() {   // stop every timer; a move in flight lands at once
+        timers.forEach(clearTimeout); timers = [];
+        if (inflight) { var t = inflight; inflight = 0; show(t); }
+    }
+    function move(thenMore) {
+        if (n >= 64) { setPlaying(false); return; }
+        inflight = n + 1;
+        arrow(TOUR[n - 1], TOUR[n]);
+        later(function () {
+            place(TOUR[n]);
+            later(function () {
+                var t = inflight; inflight = 0; show(t);
+                if (thenMore && playing && n < 64) move(true);
+                else if (n >= 64) setPlaying(false);
+            }, STEP - ARROW_LEAD);
+        }, ARROW_LEAD);
+    }
+    function play() {
+        halt();
+        if (n >= 64) show(1);
+        setPlaying(true);
+        later(function () { move(true); }, n === 1 ? 500 : 120);
+    }
+    function pause() { setPlaying(false); }
+    var acts = {
+        play: function () { playing ? pause() : play(); },
+        back: function () { setPlaying(false); halt(); if (n > 1) show(n - 1); },
+        fwd: function () { setPlaying(false); halt(); move(false); },
+        restart: function () { halt(); show(1); play(); }
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('.tc-btn'), function (b) {
+        b.addEventListener('click', function () { acts[b.getAttribute('data-act')](); });
+    });
+
     var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var btn = document.querySelector('.tour-replay');
-    if (still) { paint(64); place(TOUR[63], true); if (btn) btn.hidden = true; return; }
-    paint(1); place(TOUR[0], true);
-    btn.addEventListener('click', play);
+    if (still) { show(64); return; }   // the finished tour; the buttons still step through it
+    show(1);
     // Start once most of the board is on screen (now, or after a scroll).
     var started = false;
     function check() {
