@@ -386,6 +386,7 @@ main { flex: 1; }
 .howto-tiles li { color: var(--color-text-secondary); font-size: 16px; }
 .howto-tiles strong { display: block; font: 700 13px/1.4 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-primary); }
 .howto-tiles b { color: var(--color-text-cream); }
+.howto-more { grid-column: 1 / -1; margin: 0; font-size: 15px; color: var(--color-text-secondary); text-align: center; }
 
 /* FAQ accordions (native <details>: keyboard and touch for free). */
 .faq-group { margin-bottom: var(--s5); }
@@ -399,6 +400,62 @@ main { flex: 1; }
 .faq .answer p { color: var(--color-text-secondary); font-size: 16px; }
 .faq .answer p:last-child { margin-bottom: 0; }
 .callout { border-left: 3px solid var(--color-primary); padding: 4px 0 4px 14px; color: var(--color-text-cream) !important; }
+
+/* The Knight's Tour page (knighted/knights-tour.html): boards in the app's
+   own look (style.css .square.played / .current / .knight-piece and the Guide
+   me arrow .why-arrow), a timeline, the play card and the references.
+   Indigo pillow tiles #484CD8 with cream numerals, the gold knight #EDC13C,
+   the green arrow #57c785. Sizes are in container units so one rule set
+   serves the hero board and the small diagrams. */
+.tour-doc .doc-head .eyebrow { margin-bottom: var(--s2); }
+.tour-figure { margin: 0 0 var(--s5); padding: var(--s3); text-align: center; }
+.tour-figure-plain { padding: 0; }
+.kb { width: 100%; max-width: 440px; margin: 0 auto; padding: 5px; border-radius: 12px; background: #121a2e; border: 1px solid rgba(212, 175, 55, 0.25); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35); }
+.kb-small { max-width: 300px; }
+.kb-in { position: relative; display: grid; grid-template-columns: repeat(8, 1fr); aspect-ratio: 1; container-type: inline-size; border-radius: 8px; overflow: hidden; }
+.kb-sq { display: flex; align-items: center; justify-content: center; font: 600 4.6cqw/1 var(--font-head); color: #f3e8d2; font-variant-numeric: tabular-nums; }
+.kb-sq.l { background: rgba(255, 255, 255, 0.08); }
+.kb-sq.d { background: rgba(0, 0, 0, 0.2); }
+.kb-sq.played { background: #484CD8; border-radius: 1.1cqw; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 0 1px #383ba8, inset 0.4cqw 0.4cqw 0.8cqw #8385e4, inset -0.4cqw -0.4cqw 0.8cqw #323597, 0 1px 2px rgba(0, 0, 0, 0.3); }
+.kb-sq.current { outline: 2px solid #EDC13C; outline-offset: -2px; }
+.kb-sq.last, .kb-sq.first { color: #EDC13C; }
+.kb-sq.last, .kb-sq.first { outline: 2px solid #EDC13C; outline-offset: -2px; }
+.kb-sq.target { box-shadow: inset 0 0 0 0.45cqw #57c785; background: rgba(87, 199, 133, 0.16); }
+.kb-ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible; }
+.kb-arrow { fill: none; stroke: #57c785; stroke-width: .075; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: kbDraw .2s cubic-bezier(.32, .9, .4, 1) forwards; }
+.kb-head { fill: #57c785; opacity: 0; animation: kbIn .1s ease-out .14s forwards; }
+.kb-arrow, .kb-head { filter: drop-shadow(0 0 1px rgba(0, 0, 0, .85)); }
+.kb-arrow.still { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+.kb-head.still { opacity: 1; animation: none; }
+@keyframes kbDraw { to { stroke-dashoffset: 0; } }
+@keyframes kbIn { to { opacity: 1; } }
+.kb-knight { position: absolute; left: 0; top: 0; width: 12.5%; height: 12.5%; display: flex; align-items: center; justify-content: center; z-index: 3; pointer-events: none;
+    font-size: 9.5cqw; line-height: 1; color: #EDC13C; filter: drop-shadow(0 0 1.2cqw rgba(237, 193, 60, 0.55));
+    transform: translate(calc(var(--x, 0) * 100%), calc(var(--y, 0) * 100%)); transition: transform .26s cubic-bezier(0.34, 1.56, 0.64, 1), opacity .3s; }
+.kb-knight.gone { opacity: 0; }
+.kb-small .kb-knight { font-size: 10.5cqw; }
+.tour-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); margin: var(--s4) 0; }
+.tour-pair-item { min-width: 0; }
+.tour-cap { text-align: center; font-size: 15px; margin: var(--s2) 0 0; color: var(--color-text-secondary) !important; }
+.tour-cap b { color: var(--color-text-cream); }
+@media (max-width: 420px) { .tour-pair { gap: var(--s2); } .tour-cap { font-size: 13px; } }
+.tour-figure-plain figcaption { display: block; max-width: 52ch; margin: var(--s3) auto 0; }
+.doc h3 { font-size: 18px; margin: var(--s4) 0 var(--s2); color: var(--color-text-cream); }
+.tour-facts b { color: var(--color-text-cream); }
+.tour-figure figcaption { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: var(--s3); font-size: 15px; }
+.tour-replay { padding: 8px 16px; font-size: 14px; min-height: 0; }
+.timeline { list-style: none; padding: 0 !important; margin: 0; border-left: 2px solid rgba(212, 175, 55, 0.4); }
+.timeline li { position: relative; padding: 0 0 var(--s3) var(--s4); margin: 0; }
+.timeline li::before { content: ""; position: absolute; left: -7px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--gold-gradient); }
+.timeline b { color: var(--color-text-cream); }
+.tour-cta { margin: var(--s5) 0; text-align: center; }
+.tour-cta img { width: 220px; height: auto; display: block; margin: 0 auto var(--s3); }
+.tour-cta p { margin: 0 auto var(--s3); max-width: 56ch; }
+.tour-cta .btn-row { justify-content: center; margin-bottom: var(--s3); }
+.tour-cta .btn-row:last-child { margin-bottom: 0; }
+.sources h2 { font: 700 14px/1.3 var(--font-label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-primary); }
+.sources li, .sources p { font-size: 14px; color: var(--color-text-secondary); }
 
 /* ── Motion: subtle, and none for anyone who asks for none ───────────── */
 .fade-up { animation: fade-up 0.8s ease both; }

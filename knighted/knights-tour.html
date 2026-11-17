@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Is the Knight's Tour? Rules, History and How to Solve It | Knighted!</title>
+<meta name="description" content="The Knight's Tour is a chess puzzle over a thousand years old: move a knight so it lands on every square of the board exactly once. How the knight moves, open and closed tours, the history from Rudrata to Euler, the maths behind it, and Warnsdorff's rule for solving it.">
+<!-- SEO and link previews (2026-10-26): one canonical address per page; the
+     preview image and text WhatsApp, Facebook, X and others show for a link. -->
+<link rel="canonical" href="https://harpragames.com/knighted/knights-tour">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Harpra Games">
+<meta property="og:url" content="https://harpragames.com/knighted/knights-tour">
+<meta property="og:title" content="What is the Knight's Tour?">
+<meta property="og:description" content="One knight, every square, no square twice: a chess puzzle people have been solving for over a thousand years.">
+<meta property="og:image" content="https://harpragames.com/knighted/og-knighted.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Knighted!: one knight, 64 squares, no square twice.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b1020">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "What is the Knight's Tour?",
+ "description": "The Knight's Tour chess puzzle: how the knight moves, open and closed tours, its history, the mathematics behind it, and how to solve it.",
+ "image": "https://harpragames.com/knighted/og-knighted.jpg",
+ "url": "https://harpragames.com/knighted/knights-tour",
+ "datePublished": "2026-11-17",
+ "dateModified": "2026-11-17",
+ "about": [{ "@type": "Thing", "name": "Knight's tour", "sameAs": "https://en.wikipedia.org/wiki/Knight%27s_tour" }],
+ "author": { "@type": "Organization", "name": "Harpra Games", "url": "https://harpragames.com/" },
+ "publisher": { "@type": "Organization", "@id": "https://harpragames.com/#org", "name": "Harpra Games", "logo": { "@type": "ImageObject", "url": "https://harpragames.com/brand/harpra-logo.png" } }
+}
+</script>
+<link rel="icon" href="/knighted/favicon.ico" sizes="any">
+<link rel="icon" href="/knighted/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/knighted/apple-touch-icon.png">
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<!--
+  WHAT IS THE KNIGHT'S TOUR? -- the page people searching for the puzzle land
+  on, and the natural way into Knighted!. Sections follow the content brief
+  (2026-11-17): introduction, how the knight moves, the challenge, open vs
+  closed, history, mathematical connections, solving strategies, interesting
+  facts, play the game, references.
+
+  EVERY HISTORICAL OR MATHEMATICAL CLAIM HERE IS SOURCED (list at the foot of
+  the page). Rudrata and al-Adli: Jelliss and Wikipedia. Nilakantha, the Turk,
+  Warnsdorff 1823, Schwenk 1991, Conrad et al. 1994, Parberry 1997, Takefuji
+  and Lee 1992, the tour counts (Lobbing and Wegener 1996, McKay 1997), the
+  magic-tour result (2003): Wikipedia "Knight's tour". Euler's paper (1759,
+  printed 1766), the knight's graph and its edge count 4(n-2)(n-1), Hamiltonian
+  path and cycle, the torus: MathWorld "Knight Graph". Do not add a claim
+  without a source. The hand-solving tips are game advice, not history.
+
+  THE BOARDS ARE THE APP'S OWN LOOK: indigo pillow tiles with cream move
+  numbers, the gold knight, the green Guide me L-arrow (src/whyguide.js), one
+  arrow at a time and only while the knight is moving. The static boards (how
+  the knight moves, the sample closed tour) are plain HTML so their numbers
+  read without script. Both tours were found with Warnsdorff's rule from a1,
+  the closed one by trying tie-breaks until square 64 landed beside square 1.
+  The page was generated once by a script; edit this file directly now.
+-->
+<header class="site-header">
+    <div class="wrap">
+        <a class="brand" href="/"><img src="/brand/harpra-icon-180.png" alt="" width="30" height="30"><span>Harpra Games</span></a>
+        <nav class="site-nav" aria-label="Main"><a href="/getknighted">&larr; Knighted!</a></nav>
+    </div>
+</header>
+
+<main>
+<article class="doc tour-doc">
+    <div class="doc-head">
+        <p class="eyebrow">The puzzle behind Knighted!</p>
+        <h1>What is the Knight's Tour?</h1>
+        <p class="lede">One chess knight. Every square of the board. No square twice. A puzzle people have been solving for more than a thousand years.</p>
+    </div>
+
+    <figure class="card tour-figure">
+        <div class="kb kb-hero" role="img" aria-label="A knight's tour played out on an 8 by 8 board: the knight starts in the bottom-left corner and visits all 64 squares once, each numbered in the order it was reached."><div class="kb-in" id="tour-hero"></div></div>
+        <figcaption>
+            <span class="muted">An open tour from the corner: every square landed on once.</span>
+            <button type="button" class="btn btn-secondary tour-replay">Play it again</button>
+        </figcaption>
+    </figure>
+
+    <p>The <strong>knight's tour</strong> is one of the oldest puzzles in recreational mathematics. It needs nothing but a chessboard and a single knight, yet it has fascinated poets, chess masters, mathematicians and computer scientists for more than a thousand years. Here is how it works, where it came from, and how to solve one yourself.</p>
+
+    <h2 id="knight-moves">How a chess knight moves</h2>
+    <p>A knight moves in an L-shape: two squares in one direction, then one square to the side. It is the only chess piece that jumps, so nothing in between can block it. Every jump also changes the colour of the square it stands on, from light to dark or dark to light.</p>
+    <figure class="tour-pair">
+        <div class="tour-pair-item">
+            <div class="kb kb-small" role="img" aria-label="A knight on d4 can jump to eight squares: f3, e2, c2, b3, b5, c6, e6, f5."><div class="kb-in"><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><svg class="kb-ov" viewBox="0 0 8 8" aria-hidden="true"><polyline class="kb-arrow still" points="3.5,4.14 3.5,2.5 3.98,2.5"/><polygon class="kb-head still" points="4.16,2.5 3.92,2.6 3.92,2.4"/></svg><span class="kb-knight" style="--x:3;--y:4" aria-hidden="true">&#9822;</span></div></div>
+            <p class="tour-cap"><b>From the middle:</b> 8 squares to jump to</p>
+        </div>
+        <div class="tour-pair-item">
+            <div class="kb kb-small" role="img" aria-label="A knight in the corner on a1 has only two squares to jump to: b3 and c2."><div class="kb-in"><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l target"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><span class="kb-sq d"></span><span class="kb-sq l"></span><svg class="kb-ov" viewBox="0 0 8 8" aria-hidden="true"><polyline class="kb-arrow still" points="0.5,7.14 0.5,5.5 0.98,5.5"/><polygon class="kb-head still" points="1.16,5.5 0.92,5.6 0.92,5.4"/><polyline class="kb-arrow still" points="0.86,7.5 2.5,7.5 2.5,7.02"/><polygon class="kb-head still" points="2.5,6.84 2.6,7.08 2.4,7.08"/></svg><span class="kb-knight" style="--x:0;--y:7" aria-hidden="true">&#9822;</span></div></div>
+            <p class="tour-cap"><b>From a corner:</b> only 2</p>
+        </div>
+    </figure>
+    <p>That difference is the key to the whole puzzle. A square in the middle can be reached from eight others, a square on the edge from three or four, and a corner from just two.</p>
+
+    <h2 id="the-challenge">The challenge: every square, exactly once</h2>
+    <p>A knight's tour is a route that lands the knight on every square of the board exactly once. Start anywhere, keep jumping, and never return to a square you have already visited. On a standard 8×8 board, that is 63 jumps without a single mistake.</p>
+    <p>The first twenty moves feel easy. Then the board fills up, and the knight starts running out of places to go. Corners are the trap: if you use up both of a corner's two neighbours without visiting the corner, it is lost for good, and you may not find out until thirty moves later.</p>
+    <p>There is no shortage of answers. Mathematicians have counted more than 13 trillion different closed tours on a standard board alone, and far more open ones. The difficulty is that there are vastly more ways to go wrong.</p>
+
+    <h2 id="open-closed">Open vs closed tours</h2>
+    <p>If the knight's last square is one knight's move from where it started, so it could jump straight back and go round again, the tour is called <strong>closed</strong>. Otherwise it is <strong>open</strong>. The tour at the top of this page is open: it ends on g6, far from its start in the corner.</p>
+    <figure class="tour-figure tour-figure-plain">
+        <div class="kb" role="img" aria-label="A complete closed knight’s tour of an 8 by 8 board, starting on a1. Row by row from the top: rank 8: 36 19 22 5 38 9 24 7; rank 7: 21 4 37 42 23 6 39 10; rank 6: 18 35 20 51 46 41 8 25; rank 5: 3 52 45 48 43 54 11 40; rank 4: 34 17 62 53 50 47 26 55; rank 3: 61 2 49 44 63 58 29 12; rank 2: 16 33 64 59 14 31 56 27; rank 1: 1 60 15 32 57 28 13 30. Square 64 is a knight’s move from square 1."><div class="kb-in"><span class="kb-sq l played">36</span><span class="kb-sq d played">19</span><span class="kb-sq l played">22</span><span class="kb-sq d played">5</span><span class="kb-sq l played">38</span><span class="kb-sq d played">9</span><span class="kb-sq l played">24</span><span class="kb-sq d played">7</span><span class="kb-sq d played">21</span><span class="kb-sq l played">4</span><span class="kb-sq d played">37</span><span class="kb-sq l played">42</span><span class="kb-sq d played">23</span><span class="kb-sq l played">6</span><span class="kb-sq d played">39</span><span class="kb-sq l played">10</span><span class="kb-sq l played">18</span><span class="kb-sq d played">35</span><span class="kb-sq l played">20</span><span class="kb-sq d played">51</span><span class="kb-sq l played">46</span><span class="kb-sq d played">41</span><span class="kb-sq l played">8</span><span class="kb-sq d played">25</span><span class="kb-sq d played">3</span><span class="kb-sq l played">52</span><span class="kb-sq d played">45</span><span class="kb-sq l played">48</span><span class="kb-sq d played">43</span><span class="kb-sq l played">54</span><span class="kb-sq d played">11</span><span class="kb-sq l played">40</span><span class="kb-sq l played">34</span><span class="kb-sq d played">17</span><span class="kb-sq l played">62</span><span class="kb-sq d played">53</span><span class="kb-sq l played">50</span><span class="kb-sq d played">47</span><span class="kb-sq l played">26</span><span class="kb-sq d played">55</span><span class="kb-sq d played">61</span><span class="kb-sq l played">2</span><span class="kb-sq d played">49</span><span class="kb-sq l played">44</span><span class="kb-sq d played">63</span><span class="kb-sq l played">58</span><span class="kb-sq d played">29</span><span class="kb-sq l played">12</span><span class="kb-sq l played">16</span><span class="kb-sq d played">33</span><span class="kb-sq l played last">64</span><span class="kb-sq d played">59</span><span class="kb-sq l played">14</span><span class="kb-sq d played">31</span><span class="kb-sq l played">56</span><span class="kb-sq d played">27</span><span class="kb-sq d played first">1</span><span class="kb-sq l played">60</span><span class="kb-sq d played">15</span><span class="kb-sq l played">32</span><span class="kb-sq d played">57</span><span class="kb-sq l played">28</span><span class="kb-sq d played">13</span><span class="kb-sq l played">30</span></div></div>
+        <figcaption class="muted">A sample closed tour. Follow the numbers from 1 to 64: square 64 (ringed in gold, like square 1) is one knight's move from square 1, so the knight can jump home and start again.</figcaption>
+    </figure>
+    <p>A closed tour is a loop, so you can start it from any of its 64 squares. Closed tours are harder to find, and some boards have none at all. A 5×5 board has open tours but no closed one, and no board with an odd number of squares can be closed: the knight changes colour on every jump, so a loop needs as many light squares as dark ones.</p>
+
+    <h2 id="history">History</h2>
+    <ul class="timeline">
+        <li><b>Around 840.</b> Tours appear in early Arabic writing on <i>shatranj</i>, the ancestor of chess. One is credited to al-Adli ar-Rumi, a shatranj master who wrote one of the game's earliest books, and his is a closed tour. It survives in a later manuscript.</li>
+        <li><b>Around 900, India.</b> The Sanskrit poet Rudrata, in his book on poetics <i>Kavyalankara</i>, wrote verses whose syllables can be read by following a knight's path over half a chessboard. It is one of the earliest known knight's tours.</li>
+        <li><b>Before Euler, India.</b> The scholar Nilakantha recorded tours, including symmetrical ones, at least sixty years before Euler took up the problem.</li>
+        <li><b>1759.</b> The mathematician Leonhard Euler wrote <i>Solution of a curious question which does not seem to be subject to any analysis</i> for the Berlin Academy, printed in 1766. It was one of the first mathematical studies of the puzzle, showing ways to build new tours from old ones and to complete partial tours.</li>
+        <li><b>Late 1700s.</b> The Turk, a famous chess-playing "machine" that was secretly worked by a hidden player, performed a closed knight's tour for its audiences.</li>
+        <li><b>1823.</b> H. C. von Warnsdorff published a simple rule for finding a tour by hand, still the best-known trick for the puzzle (see <a href="#solving">below</a>).</li>
+        <li><b>1990s.</b> Allen Schwenk worked out exactly which rectangular boards have a closed tour (1991), and computers finally counted every closed tour on the standard board (Löbbing and Wegener, 1996, corrected by Brendan McKay in 1997).</li>
+        <li><b>Today.</b> The knight's tour is a classic example in computer science courses and puzzle books, and a favourite test for search algorithms.</li>
+    </ul>
+
+    <h2 id="maths">Mathematical connections</h2>
+    <p>Draw a dot for each of the 64 squares, and a line between any two squares a knight's move apart. Mathematicians call this the <strong>knight's graph</strong>. On an 8×8 board it has 64 dots and 168 lines.</p>
+    <p>A knight's tour is then a <strong>Hamiltonian path</strong> on that graph: a route along the lines that visits every dot exactly once. A closed tour is a <strong>Hamiltonian cycle</strong>, a path whose two ends are joined. Finding Hamiltonian paths in a general network is one of the famously hard problems of computer science, with no fast method known.</p>
+    <p>The knight's graph is a happy exception. It has so much regular structure that tours can be built very quickly, in time that grows only in step with the number of squares, by splitting a big board into small pieces, touring each piece and stitching the pieces together (Conrad and colleagues, 1994; Parberry, 1997).</p>
+
+    <h2 id="solving">Solving strategies</h2>
+    <h3>Warnsdorff's rule</h3>
+    <p class="callout">Always jump to the square that has the <strong>fewest</strong> onward moves left.</p>
+    <p>Visit the hard-to-reach squares first, while you still can, and leave the well-connected middle for later. It is not foolproof: when two squares tie, the rule does not say which to choose, and a poor choice can still run into a dead end, so mathematicians have proposed several ways to break ties. On a standard board it finds a complete tour remarkably often. Both tours on this page were found this way.</p>
+    <h3>Backtracking</h3>
+    <p>Try a move. If it leads to a dead end, step back and try another. A computer can do this systematically, but a full board has far too many dead ends to try them all one by one, so backtracking works best combined with a good rule like Warnsdorff's to choose which move to try first.</p>
+    <h3>Divide and conquer, and neural networks</h3>
+    <p>For very large boards, the fastest methods split the board into smaller rectangles, tour each one and join them up. Researchers have even trained neural networks to find tours (Takefuji and Lee, 1992).</p>
+    <h3>Tips for solving by hand</h3>
+    <ul>
+        <li><b>Work the edges first.</b> Start on an edge or in a corner, and sweep around the rim before heading for the middle.</li>
+        <li><b>Never strand a corner.</b> When a corner has only one way in left, go there soon, or it will have to be your very last square.</li>
+        <li><b>Count the ways in.</b> A square with just one unvisited neighbour can only be your final square, and you can only have one of those.</li>
+        <li><b>Save the middle for last.</b> Central squares are the easiest to get in and out of, so they are the best squares to finish on.</li>
+        <li><b>Step back further.</b> When you hit a dead end, the mistake is usually several moves back. Undo a few moves, not just one.</li>
+    </ul>
+
+    <h2 id="facts">Interesting facts</h2>
+    <ul class="tour-facts">
+        <li><b>26,534,728,821,064</b> closed tours on a standard board, or 13,267,364,410,532 if a tour and the same tour run backwards count as one.</li>
+        <li><b>19,591,828,170,979,904</b> tours in all, open and closed, counting each direction separately.</li>
+        <li><b>5×5</b> is the smallest square board with a tour. The 2×2, 3×3 and 4×4 boards have none, and every rectangle at least 5 squares on each side has at least one (Conrad and colleagues, 1994).</li>
+        <li><b>Closed tours are picky.</b> A rectangle has one unless both its sides are odd, its shorter side is 1, 2 or 4 squares, or it is 3 squares wide and 4, 6 or 8 long (Schwenk, 1991).</li>
+        <li><b>No magic tour.</b> A computer search in 2003 showed that no 8×8 tour numbers the board so that every row, column and diagonal adds up to the same total. Tours where just the rows and columns match do exist, and Euler drew one.</li>
+        <li><b>Beyond the chessboard.</b> Mathematicians study tours on boards of every size and shape, even on a torus, a board whose edges wrap around to meet each other.</li>
+    </ul>
+
+    <section class="card tour-cta" aria-labelledby="h-try">
+        <h2 class="band" id="h-try"><span>Play the game</span></h2>
+        <img src="/knighted/knighted-logo.webp" alt="Knighted!" width="260" height="144">
+        <p><strong>Knighted!</strong> turns the knight's tour into a game for your phone. A new <strong>Daily Puzzle</strong> every day, at five levels from Easy to Insane, with numbered checkpoint clues your tour must pass through. Or play <strong>Classic</strong> tours on boards from 6×6 to 12×12, with or without obstacles. Stuck? <strong>Guide me</strong> shows you the next move with the same green arrow you see on this page.</p>
+        <div class="btn-row">
+            <span class="store-soon is-soon js-play-prelaunch" aria-disabled="true"><span>Google Play</span>Coming soon to</span>
+            <a class="store-badge js-play-live hidden" data-count="tour-google-play" href="https://play.google.com/store/apps/details?id=com.knighted.app&amp;referrer=utm_source%3Dsite"><img src="/knighted/google-play-badge.svg" alt="Get it on Google Play" width="190" height="56"></a>
+            <a class="store-soon js-appstore is-soon" data-count="tour-app-store" aria-disabled="true"><span>App Store</span>Coming soon to</a>
+        </div>
+        <div class="btn-row"><a class="btn btn-primary" data-count="tour-explore-knighted" href="/getknighted">Explore Knighted!</a></div>
+    </section>
+
+    <section class="sources">
+        <h2>References</h2>
+        <ul>
+            <li>G. P. Jelliss, <a href="https://mayhematics.com/t/1a.htm">Early History of Knight's Tours</a> (al-Adli, Rudrata).</li>
+            <li>Wikipedia, <a href="https://en.wikipedia.org/wiki/Knight%27s_tour">Knight's tour</a> (Nilakantha, the Turk, Warnsdorff, Schwenk's theorem, which boards have tours, the number of tours, magic tours, divide and conquer, neural networks).</li>
+            <li>Eric W. Weisstein, <a href="https://mathworld.wolfram.com/KnightGraph.html">Knight Graph</a>, MathWorld (the knight's graph, Euler's paper, Hamiltonian paths and cycles, tours on a torus).</li>
+            <li>Wikipedia, <a href="https://en.wikipedia.org/wiki/Hamiltonian_path">Hamiltonian path</a>.</li>
+            <li>ChessBase, <a href="https://en.chessbase.com/post/euler-and-the-knights-tour">Euler and the Knight's Tour</a> (Euler's paper).</li>
+        </ul>
+    </section>
+</article>
+</main>
+
+<footer class="site-footer">
+    <div class="wrap">
+        <span>© 2026 Harpra Games</span>
+        <nav aria-label="Footer"><a href="/getknighted">Knighted!</a><a href="/knighted/knights-tour" aria-current="page">The Knight's Tour</a><a href="/knighted/support">Help &amp; Support</a><a href="/knighted/privacy">Privacy Policy</a><a href="mailto:support@harpragames.com">support@harpragames.com</a></nav>
+        <p class="legal">Google Play and the Google Play logo are trademarks of Google LLC.</p>
+    </div>
+</footer>
+<script src="/analytics.js"></script>
+<script>
+// The store row: the same launch switches as /getknighted (flip both pages
+// together, site/README.md).
+(function () {
+    var APP_STORE = '';    // set when the iPhone app is live
+    var PLAY_LIVE = false; // true the day the Play listing is public
+    var all = function (sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); };
+    if (PLAY_LIVE) {
+        all('.js-play-live', function (e) { e.classList.remove('hidden'); });
+        all('.js-play-prelaunch', function (e) { e.classList.add('hidden'); });
+    }
+    if (APP_STORE) all('.js-appstore', function (a) {
+        a.href = APP_STORE; a.classList.remove('is-soon'); a.removeAttribute('aria-disabled');
+        a.textContent = 'Download on the App Store';
+    });
+})();
+
+// The hero board: the tour played the way the app's Guide me shows a move.
+// One green L-arrow at a time, drawn just before the knight jumps and gone
+// once it lands; every square left behind becomes a numbered tile. Still (the
+// finished tour) for anyone who asks for reduced motion.
+(function () {
+    // Square = row * 8 + column, row 0 at the top. Warnsdorff's rule from the
+    // bottom-left corner (ties to the first move in clockwise order).
+    var TOUR = [56,41,58,48,33,16,1,11,5,15,30,47,62,52,46,63,53,59,49,32,42,57,40,50,60,43,26,36,51,61,55,45,39,54,44,38,23,6,21,31,37,27,17,0,10,4,14,20,35,25,8,2,12,29,19,34,24,9,3,18,28,13,7,22];
+    var STEP = 520, ARROW_LEAD = 240;   // ms per move; the arrow shows this long before the jump
+    var host = document.getElementById('tour-hero'); if (!host) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    var cells = [];
+    for (var i = 0; i < 64; i++) {
+        var s = document.createElement('span');
+        s.className = 'kb-sq ' + (((i % 8) + Math.floor(i / 8)) % 2 ? 'd' : 'l');
+        host.appendChild(s); cells.push(s);
+    }
+    var ov = document.createElementNS(NS, 'svg');
+    ov.setAttribute('class', 'kb-ov'); ov.setAttribute('viewBox', '0 0 8 8'); ov.setAttribute('aria-hidden', 'true');
+    host.appendChild(ov);
+    var knight = document.createElement('span');
+    knight.className = 'kb-knight'; knight.setAttribute('aria-hidden', 'true'); knight.textContent = '♞';
+    host.appendChild(knight);
+
+    function mk(name, attrs) { var e = document.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); ov.appendChild(e); return e; }
+    // The app's L-arrow (src/whyguide.js): long leg first, solid head.
+    function arrow(a, b) {
+        var sx = a % 8 + .5, sy = Math.floor(a / 8) + .5, ex = b % 8 + .5, ey = Math.floor(b / 8) + .5;
+        var dx = ex - sx, dy = ey - sy, mx, my;
+        if (Math.abs(dy) === 2) { mx = sx; my = sy + dy; } else { mx = sx + dx; my = sy; }
+        var tx = ex - (ex - mx) * .34, ty = ey - (ey - my) * .34;
+        var len = Math.hypot(mx - sx, my - sy);
+        var ox = sx + (mx - sx) / len * .36, oy = sy + (my - sy) / len * .36;
+        var HEAD = .24, HALF = .1;
+        var fx = tx - mx, fy = ty - my, fl = Math.hypot(fx, fy) || 1, ux = fx / fl, uy = fy / fl;
+        var bx = tx - ux * HEAD, by = ty - uy * HEAD, px = -uy * HALF, py = ux * HALF;
+        mk('polyline', { 'class': 'kb-arrow', pathLength: 1, points: ox + ',' + oy + ' ' + mx + ',' + my + ' ' + (tx - ux * HEAD * .75) + ',' + (ty - uy * HEAD * .75) });
+        mk('polygon', { 'class': 'kb-head', points: tx + ',' + ty + ' ' + (bx + px) + ',' + (by + py) + ' ' + (bx - px) + ',' + (by - py) });
+    }
+    function clearArrow() { while (ov.firstChild) ov.removeChild(ov.firstChild); }
+    function place(sqr, instant) {
+        if (instant) knight.style.transition = 'none';
+        knight.style.setProperty('--x', sqr % 8); knight.style.setProperty('--y', Math.floor(sqr / 8));
+        if (instant) { void knight.offsetWidth; knight.style.transition = ''; }
+    }
+    function paint(n) {   // n squares reached; the knight stands on the nth
+        for (var k = 0; k < 64; k++) { cells[k].classList.remove('played', 'current', 'last'); cells[k].textContent = ''; }
+        for (var j = 0; j < n; j++) {
+            var c = cells[TOUR[j]]; c.classList.add('played');
+            if (j < n - 1) c.textContent = j + 1;
+        }
+        if (n === 64) { cells[TOUR[63]].classList.add('last'); cells[TOUR[63]].textContent = 64; knight.classList.add('gone'); }
+        else { cells[TOUR[n - 1]].classList.add('current'); knight.classList.remove('gone'); }
+    }
+    var timers = [];
+    function stop() { timers.forEach(clearTimeout); timers = []; clearArrow(); }
+    function play() {
+        stop();
+        var n = 1; paint(1); place(TOUR[0], true);
+        function next() {
+            if (n >= 64) return;
+            arrow(TOUR[n - 1], TOUR[n]);
+            timers.push(setTimeout(function () {
+                n++; place(TOUR[n - 1]);
+                timers.push(setTimeout(function () { clearArrow(); paint(n); if (n < 64) next(); }, STEP - ARROW_LEAD));
+            }, ARROW_LEAD));
+        }
+        timers.push(setTimeout(next, 600));
+    }
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var btn = document.querySelector('.tour-replay');
+    if (still) { paint(64); place(TOUR[63], true); if (btn) btn.hidden = true; return; }
+    paint(1); place(TOUR[0], true);
+    btn.addEventListener('click', play);
+    // Start once most of the board is on screen (now, or after a scroll).
+    var started = false;
+    function check() {
+        if (started) return;
+        var r = host.getBoundingClientRect(), h = window.innerHeight || document.documentElement.clientHeight;
+        if (r.top < h - r.height * 0.4 && r.bottom > r.height * 0.4) {
+            started = true; window.removeEventListener('scroll', check); play();
+        }
+    }
+    window.addEventListener('scroll', check, { passive: true });
+    check();
+})();
+</script>
+</body>
+</html>
