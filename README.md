@@ -62,9 +62,11 @@ is counted: **change it in the same change as `analytics.js`**.
 ## SEO
 Every page has a canonical address, a description, link-preview tags with an
 image, and (home and `/getknighted`) structured data for Harpra Games and the
-game. Owner, once: add the site to **Google Search Console** and **Bing
-Webmaster Tools** (verify with a DNS TXT record in Cloudflare) and submit
-`https://harpragames.com/sitemap.xml`; that is where search queries show up.
+game. **Google Search Console is set up** (Domain property harpragames.com,
+owner's account; seen with data by 2026-11-17): search queries, indexing and
+the sitemap live there. After a new or rewritten page, resubmit
+`sitemap.xml` and use URL inspection, Request indexing. Bing Webmaster Tools:
+not yet (it can import the site from Search Console in one click).
 
 ## When the Play listing goes public (Android launch day)
 1. In `getknighted.html` **and `knighted/knights-tour.html`** set `PLAY_LIVE = true`: Google's badge replaces "Coming soon to
