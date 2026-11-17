@@ -406,13 +406,15 @@ main { flex: 1; }
    me arrow .why-arrow), a timeline, the play card and the references.
    Indigo pillow tiles #484CD8 with cream numerals, the gold knight #EDC13C,
    the green arrow #57c785. Sizes are in container units so one rule set
-   serves the hero board and the small diagrams. */
+   serves the hero board and the small diagrams. ROWS ARE FIXED AT 1fr: left
+   to size themselves, a row holding a numeral grew taller than the empty ones
+   and the squares changed shape as the tour went on (2026-11-17). */
 .tour-doc .doc-head .eyebrow { margin-bottom: var(--s2); }
 .tour-figure { margin: 0 0 var(--s5); padding: var(--s3); text-align: center; }
 .tour-figure-plain { padding: 0; }
 .kb { width: 100%; max-width: 440px; margin: 0 auto; padding: 5px; border-radius: 12px; background: #121a2e; border: 1px solid rgba(212, 175, 55, 0.25); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35); }
 .kb-small { max-width: 300px; }
-.kb-in { position: relative; display: grid; grid-template-columns: repeat(8, 1fr); aspect-ratio: 1; container-type: inline-size; border-radius: 8px; overflow: hidden; }
+.kb-in { position: relative; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); grid-template-rows: repeat(8, minmax(0, 1fr)); aspect-ratio: 1; container-type: inline-size; border-radius: 8px; overflow: hidden; }
 .kb-sq { display: flex; align-items: center; justify-content: center; font: 600 4.6cqw/1 var(--font-head); color: #f3e8d2; font-variant-numeric: tabular-nums; }
 .kb-sq.l { background: rgba(255, 255, 255, 0.08); }
 .kb-sq.d { background: rgba(0, 0, 0, 0.2); }
