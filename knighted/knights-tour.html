@@ -135,12 +135,12 @@
         <div class="kb kb-hero" role="img" aria-label="A knight's tour played out on an 8 by 8 board: the knight starts in the bottom-left corner and visits all 64 squares once, each numbered in the order it was reached."><div class="kb-in" id="tour-hero"></div></div>
         <figcaption>
             <div class="tour-controls" role="group" aria-label="Tour controls">
-                <button type="button" class="tc-btn" data-act="back" aria-label="Previous move"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 5 8 12 15 19"/></svg></button>
-                <button type="button" class="tc-btn tc-play" data-act="play" aria-label="Play"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5.5" width="3.8" height="13" rx="1"/><rect x="13.7" y="5.5" width="3.8" height="13" rx="1"/></svg></button>
-                <button type="button" class="tc-btn" data-act="fwd" aria-label="Next move"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 5 16 12 9 19"/></svg></button>
-                <button type="button" class="tc-btn" data-act="restart" aria-label="Restart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><polyline points="4 3.5 4 8 8.5 8"/></svg></button>
-                <span class="tc-count">Move <b class="tc-n">1</b> of 64</span>
+                <button type="button" class="tc-btn" data-act="back"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5.5" width="2.6" height="13" rx="1"/><path d="M19 5.5v13L9 12z"/></svg><span class="tc-label">Back</span></button>
+                <button type="button" class="tc-btn tc-play" data-act="play"><span class="tc-face"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5.5" width="3.8" height="13" rx="1"/><rect x="13.7" y="5.5" width="3.8" height="13" rx="1"/></svg></span><span class="tc-label">Play</span></button>
+                <button type="button" class="tc-btn" data-act="fwd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5v13L15 12z"/><rect x="16.4" y="5.5" width="2.6" height="13" rx="1"/></svg><span class="tc-label">Next</span></button>
+                <button type="button" class="tc-btn" data-act="restart"><svg class="i-line" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><polyline points="4 3.5 4 8 8.5 8"/></svg><span class="tc-label">Restart</span></button>
             </div>
+            <span class="tc-count">Move <b class="tc-n">1</b> of 64</span>
             <span class="muted">An open tour from the corner: every square landed on once.</span>
         </figcaption>
     </figure>
@@ -314,7 +314,7 @@
     // Square = row * 8 + column, row 0 at the top. Warnsdorff's rule from the
     // bottom-left corner (ties to the first move in clockwise order).
     var TOUR = [56,41,58,48,33,16,1,11,5,15,30,47,62,52,46,63,53,59,49,32,42,57,40,50,60,43,26,36,51,61,55,45,39,54,44,38,23,6,21,31,37,27,17,0,10,4,14,20,35,25,8,2,12,29,19,34,24,9,3,18,28,13,7,22];
-    var STEP = 520, ARROW_LEAD = 240;   // ms per move; the arrow shows this long before the jump
+    var STEP = 900, ARROW_LEAD = 380;   // ms per move; the arrow shows this long before the jump (owner, 2026-11-17: 520 was too quick)
     var host = document.getElementById('tour-hero'); if (!host) return;
     var NS = 'http://www.w3.org/2000/svg';
     var cells = [];
@@ -374,7 +374,7 @@
     }
     function setPlaying(on) {
         playing = on;
-        if (btnPlay) { btnPlay.classList.toggle('is-playing', on); btnPlay.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+        if (btnPlay) { btnPlay.classList.toggle('is-playing', on); var l = btnPlay.querySelector('.tc-label'); if (l) l.textContent = on ? 'Pause' : 'Play'; }
     }
     function halt() {   // stop every timer; a move in flight lands at once
         timers.forEach(clearTimeout); timers = [];

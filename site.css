@@ -426,8 +426,8 @@ main { flex: 1; }
 .kb-sq.cand { color: #8fe0b0; font-weight: 600; }
 .kb-sq.cand.pick { background: rgba(87, 199, 133, 0.34); color: #fff; box-shadow: inset 0 0 0 0.7cqw #57c785; }
 .kb-ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible; }
-.kb-arrow { fill: none; stroke: #57c785; stroke-width: .075; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: kbDraw .2s cubic-bezier(.32, .9, .4, 1) forwards; }
-.kb-head { fill: #57c785; opacity: 0; animation: kbIn .1s ease-out .14s forwards; }
+.kb-arrow { fill: none; stroke: #57c785; stroke-width: .075; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: kbDraw .3s cubic-bezier(.32, .9, .4, 1) forwards; }
+.kb-head { fill: #57c785; opacity: 0; animation: kbIn .12s ease-out .22s forwards; }
 .kb-arrow, .kb-head { filter: drop-shadow(0 0 1px rgba(0, 0, 0, .85)); }
 .kb-arrow.still { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
 .kb-head.still { opacity: 1; animation: none; }
@@ -435,21 +435,23 @@ main { flex: 1; }
 @keyframes kbIn { to { opacity: 1; } }
 .kb-knight { position: absolute; left: 0; top: 0; width: calc(100% / var(--n, 8)); height: calc(100% / var(--n, 8)); display: flex; align-items: center; justify-content: center; z-index: 3; pointer-events: none;
     font-size: calc(76cqw / var(--n, 8)); line-height: 1; color: #EDC13C; filter: drop-shadow(0 0 1.2cqw rgba(237, 193, 60, 0.55));
-    transform: translate(calc(var(--x, 0) * 100%), calc(var(--y, 0) * 100%)); transition: transform .26s cubic-bezier(0.34, 1.56, 0.64, 1), opacity .3s; }
+    transform: translate(calc(var(--x, 0) * 100%), calc(var(--y, 0) * 100%)); transition: transform .34s cubic-bezier(0.34, 1.56, 0.64, 1), opacity .3s; }
 .kb-knight.gone { opacity: 0; }
 .kb-small .kb-knight { font-size: calc(84cqw / var(--n, 8)); }
 .kb-mid { max-width: 340px; }
 /* The hero's player: play/pause, step back and forward, restart, the count. */
-.tour-controls { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; width: 100%; }
-.tc-btn { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--color-border-accent); background: var(--color-surface-raised); color: var(--color-text-cream); cursor: pointer; padding: 0; }
-.tc-btn:hover { border-color: var(--color-primary); }
-.tc-btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
-.tc-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.tc-play { width: 52px; height: 52px; background: var(--gold-gradient); color: var(--color-ink-on-gold); border: none; }
-.tc-play svg { width: 22px; height: 22px; fill: currentColor; stroke: none; }
+.tour-controls { display: flex; align-items: flex-start; justify-content: center; gap: 14px; width: 100%; }
+.tc-btn { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; padding: 0; cursor: pointer; color: var(--color-text-cream); font: 600 12px/1 var(--font-body); }
+.tc-btn > svg, .tc-face { width: 44px; height: 44px; box-sizing: border-box; border-radius: 50%; border: 1px solid var(--color-border-accent); background: var(--color-surface-raised); padding: 12px; fill: currentColor; margin: 4px 0; }
+.tc-btn > svg.i-line { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.tc-btn:hover > svg { border-color: var(--color-primary); }
+.tc-btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; border-radius: 10px; }
+.tc-label { color: var(--color-text-secondary); letter-spacing: .02em; }
+.tc-face { display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; padding: 0; margin: 0; background: var(--gold-gradient); border: none; color: var(--color-ink-on-gold); }
+.tc-face svg { width: 22px; height: 22px; fill: currentColor; }
 .tc-play .i-pause, .tc-play.is-playing .i-play { display: none; }
 .tc-play.is-playing .i-pause { display: block; }
-.tc-count { min-width: 8.5em; font-size: 15px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+.tc-count { width: 100%; font-size: 15px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
 .tc-count b { color: var(--color-text-cream); }
 /* The knight's graph (5x5). */
 .kg { display: block; width: 100%; max-width: 340px; margin: 0 auto; border-radius: 12px; background: #121a2e; border: 1px solid rgba(212, 175, 55, 0.25); }
